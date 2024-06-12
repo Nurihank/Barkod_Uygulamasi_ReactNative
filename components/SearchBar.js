@@ -6,20 +6,6 @@ import api from '../api/api';
 import SearchApi from '../hooks/SearchApi';
 
 export default function SearchBar({input,inputChange,inputEnd}) {  
-
-    /* const asd = ()=>{
-        console.log("geldimi")
-    }
-    const search =async (text)=>{
-        setInput(text)
-            const response = await api.get("/searchUrun",{
-                params:{
-                    urunAdi:text
-                }
-            })
-            setUrun(response.data.message)
-        
-    } */
     
     return (
         <View style={styles.container}>

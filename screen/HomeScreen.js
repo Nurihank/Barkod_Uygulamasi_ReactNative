@@ -2,26 +2,20 @@ import { StatusBar } from 'expo-status-bar';
 import { Alert, FlatList, StyleSheet, TouchableOpacity, View, Text, Image, TouchableHighlight } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
-import api from '../api/api';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import SearchApi from '../hooks/SearchApi';
-import Urunler from './Urunler';
+
 
 export default function App() {
     const navigation = useNavigation();
-    const [result, UrunGetir] = SearchApi();
+    const [UrunGetir] = SearchApi();
     const [term, setTerm] = useState("");
     const [gelenUrun, setGelenUrun] = useState([]);
 
-    const deneme = async () => {
-        console.log("1*****************");
-        console.log(term);
-
-        const apiResult = await UrunGetir(term); // API çağrısından sonucu al
-        console.log(apiResult);
-        setGelenUrun(apiResult); // Yeni sonucu state'e ata
-        console.log("2*************************");
+    const UrunleriGetirme = async () => {
+        const apiResult = await UrunGetir(term); // api çağrısından sonucu aldık
+        setGelenUrun(apiResult); // gelen sonucu set ettik
     }
 
     return (
@@ -30,7 +24,7 @@ export default function App() {
                 <SearchBar
                     input={term}
                     inputChange={setTerm}
-                    inputEnd={deneme}
+                    inputEnd={UrunleriGetirme}
                 />
                 <View style={{ flexDirection: "row", marginTop: 25 }}>
                     <TouchableHighlight style={{ marginHorizontal: 10 }} onPress={() => { Alert.alert("Ekleme") }}>
@@ -41,7 +35,11 @@ export default function App() {
                     </TouchableHighlight>
                 </View>
             </View>
-            <View style={{ backgroundColor: "red" }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <Text style={styles.HeadText}>ÜRÜN</Text>
+                <Text style={styles.HeadText}>ÜRÜN ACIKLAMASI</Text>
+            </View>
+            <View style={{}}>
                 <FlatList
                     data={gelenUrun}
                     renderItem={({ item }) => {
@@ -54,6 +52,7 @@ export default function App() {
                     }}
                     keyExtractor={(item) => item.idUrunler.toString()}
                 />
+
             </View>
         </View>
     );
@@ -66,5 +65,14 @@ const styles = StyleSheet.create({
     image: {
         height: 250,
         width: 250
+    },
+    HeadText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        margin: 16
+    },
+    image: {
+        height: 100,
+        width: 100
     }
 });
