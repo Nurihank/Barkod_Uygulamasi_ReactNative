@@ -8,13 +8,11 @@ export default () => {
                 urunAdi: urunAra
             }
         })
-        console.log("SEARCH API TERM: " + urunAra)
-        console.log("SEARCH API MESSAGE: " + response.data.message)
-        return response.data.message // Dönen veriyi geri döndür
+        return response.data.message 
     }
 
     useEffect(() => {
-        // İlk render sırasında bir şey yapmıyor
+     
     }, [])
 
     return [UrunGetir]

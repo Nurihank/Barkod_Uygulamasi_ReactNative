@@ -2,14 +2,14 @@ import { StyleSheet, Text, View, TextInput, TouchableHighlight, Alert, FlatList 
 } from 'react-native'
 import React ,{useState} from 'react'
 import { FontAwesome5 } from '@expo/vector-icons';
-import api from '../api/api';
-import SearchApi from '../hooks/SearchApi';
 
 export default function SearchBar({input,inputChange,inputEnd}) {  
     
     return (
         <View style={styles.container}>
-        <View style={{flexDirection:"row"}}>
+        <View 
+       style={{flexDirection:"row"}}
+        >
             <FontAwesome5 name="search" size={24} color="black" marginHorizontal={15} />
             <TextInput
                 placeholder='Arama'
@@ -18,14 +18,9 @@ export default function SearchBar({input,inputChange,inputEnd}) {
                 onChangeText={inputChange}
                 onEndEditing={inputEnd}
             />
-        </View>
-        
+        </View>  
     </View>
-        
-        
-    
-    )
-}
+    )}
 
 const styles = StyleSheet.create({
     container: {

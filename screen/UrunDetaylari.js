@@ -1,14 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image } from 'react-native'
+import React, { useState } from 'react'
 
 export default function UrunDetaylari({ route }) {
-    console.log(route.params.id)
-    const id = route.params.id
+    var urun = route.params.data
+
     return (
         <View>
-            <Text>{id}</Text>
+            <View style={{ alignItems: "center", backgroundColor: "#e9967a" }}>
+                <Text style={styles.HeadText}>{urun.urunAdi}</Text>
+            </View>
+            <View style={{ flexDirection: "row", margin: 10 }}>
+                <Text>Açıklama = </Text>
+                <Text>{urun.urunAciklamasi}</Text>
+            </View>
         </View>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    HeadText: {
+        fontSize: 38,
+        fontWeight: "bold",
+    },
+    text: {
+        fontSize: 15
+    }
+})
