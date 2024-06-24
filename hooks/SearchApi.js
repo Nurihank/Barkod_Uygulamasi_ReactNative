@@ -8,6 +8,7 @@ export default () => {
                 urunAdi: urunAra
             }
         })
+        
         return response.data.message 
     }
 

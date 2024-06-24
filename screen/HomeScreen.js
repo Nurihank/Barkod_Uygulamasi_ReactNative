@@ -7,7 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 import SearchApi from '../hooks/SearchApi';
 import UrunEkleme from '../components/UrunEkleme';
 import UrunSilme from '../components/UrunSilme';
-
+import { Entypo } from '@expo/vector-icons';
+import { Camera } from 'expo-camera';
+import Kamera from "../components/Camera.js"
 export default function App() {
     const navigation = useNavigation();
     const [UrunGetir] = SearchApi();
@@ -71,7 +73,9 @@ export default function App() {
                     </TouchableOpacity>
                 )}
             />
-       
+            <View>
+                <Kamera/>
+            </View>  
         </View>
     );
 }
