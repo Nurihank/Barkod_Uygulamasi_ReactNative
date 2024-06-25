@@ -25,9 +25,7 @@ export default function App() {
 
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
-      
-        setGelenUrun(urunResult)
-        // gelen sonucu set ettik
+        setGelenUrun(urunResult) // gelen sonucu set ettik    
     };
 
     useEffect(() => {
@@ -36,8 +34,7 @@ export default function App() {
 
     const Cikis = () => { //modaldan çıkışı sağlıyoz
         setUrunEkleVisible(false);
-        setUrunSilVisible(false);
-        
+        setUrunSilVisible(false);       
         UrunleriGetirme();
     };
 

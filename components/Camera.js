@@ -5,19 +5,11 @@ import { launchCamera } from 'react-native-image-picker';
 export default function App() {
 
     const[cameraPhoto,setCameraPhoto] = useState()
-    let options = {
-        saveToPhotos : true,
-        mediaType:"photo",
-        buttonPositive:"OK",
-        buttonNegative:"Cancel"
-    }
-    const openCamera =async ()=>{
-        
-        const granted = await PermissionsAndroid.request(
+
+    const openCamera =async ()=>{   
+       const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.CAMERA
-        )
-       
-        //dosya izinlerini silerek dene bi kerede 
+        ) 
         if(granted === PermissionsAndroid.RESULTS.GRANTED){
             console.log("izin")
             const result = await launchCamera({
@@ -28,9 +20,7 @@ export default function App() {
             })
             setCameraPhoto(result.assets[0]?.uri) 
         }
-
     }
-
     return (
     <View style={styles.container}>
         <View>

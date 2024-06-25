@@ -14,12 +14,10 @@ export default function Kategori() {
   const [term, setTerm] = useState('');
   const [gelenKategori, setGelenKategori] = useState('');
   const [kategoriEkleVisible, setKategoriEkleVisible] = useState(false);
-  const [kategoriSilVisible, setKategoriSilVisible] = useState(false);
   const navigation = useNavigation();
 
   const Cikis = () => {
     setKategoriEkleVisible(false);
-    setKategoriSilVisible(false);
     KategorileriGetir();
   };
 
@@ -46,12 +44,6 @@ export default function Kategori() {
         </TouchableHighlight>
 
         <KategoriEkleme visible={kategoriEkleVisible} Cikis={Cikis} />
-
-        <TouchableHighlight style={styles.iconButton} onPress={() => setKategoriSilVisible(true)}>
-          <FontAwesome5 name="trash" size={24} color="black" />
-        </TouchableHighlight>
-
-        <UrunSilme visible={kategoriSilVisible} Cikis={Cikis} />
       </View>
       <View style={styles.header}>
         <Text style={styles.headText}>Kategori</Text>
