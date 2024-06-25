@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View ,Image,PermissionsAndroid} from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { launchCamera } from 'react-native-image-picker';
 export default function App() {
 
@@ -36,7 +36,7 @@ export default function App() {
         <View>
             <Image resizeMode='contain' style={styles.img} source={{uri:cameraPhoto}}/>
             <TouchableOpacity onPress={openCamera}>
-                <Text style={{fontSize:25}}>OPEN CAMERA</Text> 
+                <MaterialCommunityIcons name="qrcode-scan" size={40} color="black" /> 
             </TouchableOpacity>
             
         </View>
@@ -45,13 +45,5 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        justifyContent:"center",
-        alignItems:"center",
-        backgroundColor:"White"
-    },
-    img:{
-        height:100,
-        width:100
-    }
+    
 })
