@@ -15,9 +15,10 @@ export default function App() {
         const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.CAMERA
         )
-
+        console.log(granted)
+        //dosya izinlerini silerek dene bi kerede 
         if(granted === PermissionsAndroid.RESULTS.GRANTED){
-            console.log("adsdas")
+            console.log("izin")
             const result = await launchCamera({
                 saveToPhotos : true,
                 mediaType:"photo",
@@ -33,7 +34,7 @@ export default function App() {
     <View style={styles.container}>
         <View>
             <Image resizeMode='contain' style={styles.img} source={{uri:cameraPhoto}}/>
-            <TouchableOpacity onPress={()=>openCamera}>
+            <TouchableOpacity onPress={openCamera}>
                 <Text style={{fontSize:25}}>OPEN CAMERA</Text> 
             </TouchableOpacity>
             
