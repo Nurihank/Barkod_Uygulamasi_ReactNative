@@ -7,9 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 import SearchApi from '../hooks/SearchApi';
 import UrunEkleme from '../components/UrunEkleme';
 import UrunSilme from '../components/UrunSilme';
-import { Entypo } from '@expo/vector-icons';
-import { Camera } from 'expo-camera';
 import Kamera from "../components/Camera.js"
+import { AntDesign } from '@expo/vector-icons';
+
 export default function App() {
     const navigation = useNavigation();
     const [UrunGetir] = SearchApi();
@@ -20,8 +20,8 @@ export default function App() {
 
 
     const UrunleriGetirme = async () => {
-        const apiResult = await UrunGetir(term); // api çağrısından sonucu aldık
-        setGelenUrun(apiResult); // gelen sonucu set ettik
+        const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
+        setGelenUrun(urunResult); // gelen sonucu set ettik
     };
     useEffect(() => {
         UrunleriGetirme();
@@ -42,6 +42,10 @@ export default function App() {
                     inputEnd={UrunleriGetirme}
                 />
                 <View style={{ flexDirection: "row", marginTop: 25 }}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Kategori Sayfasi")}>
+                        <AntDesign name="windowso" size={30} color="black" />  
+                    </TouchableOpacity>
+                    
                     <TouchableHighlight style={{ marginHorizontal: 10 }} onPress={() => setUrunEkleVisible(true)}>
                         <FontAwesome5 name="plus-circle" size={24} color="black" />
                     </TouchableHighlight>

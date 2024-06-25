@@ -12,10 +12,11 @@ export default function App() {
         buttonNegative:"Cancel"
     }
     const openCamera =async ()=>{
+        
         const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.CAMERA
         )
-        console.log(granted)
+       
         //dosya izinlerini silerek dene bi kerede 
         if(granted === PermissionsAndroid.RESULTS.GRANTED){
             console.log("izin")
@@ -25,7 +26,7 @@ export default function App() {
                 buttonPositive:"OK",
                 buttonNegative:"Cancel"
             })
-            setCameraPhoto(result.assets[0]?.uri)
+            setCameraPhoto(result.assets[0]?.uri) 
         }
 
     }

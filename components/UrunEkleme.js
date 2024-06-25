@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Modal, Button, TextInput, Alert } from 'react-n
 import React, { useState } from 'react'
 import api from '../api/api'
 import { useNavigation } from '@react-navigation/native'
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function UrunEkleme({ visible, Cikis }) {
     const [urunAdi, setUrunAdi] = useState("")

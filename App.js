@@ -6,6 +6,8 @@ const Stack = createNativeStackNavigator();
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import UrunDetaylari from './screen/UrunDetaylari.js';
+import Kategori from './screen/Kategori.js';
+import KategoriDetaylari from './screen/KategoriDetaylari.js';
 
 export default function App() {
   return (
@@ -13,6 +15,8 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Ana Sayfa" component={HomeScreen} />
         <Stack.Screen name="Ürün Sayfasi" component={UrunDetaylari} />
+        <Stack.Screen name="Kategori Sayfasi" component={Kategori} />
+        <Stack.Screen name="Kategori Detayı" component={KategoriDetaylari} />
       </Stack.Navigator>
     </NavigationContainer>
   );

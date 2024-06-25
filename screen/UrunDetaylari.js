@@ -1,32 +1,115 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, Button, Share, Alert } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 
 export default function UrunDetaylari({ route }) {
-    var urun = route.params.data
+    const [urun, setUrun] = useState(null);
+
+    useEffect(() => {
+        if (route.params && route.params.data) {
+            setUrun(route.params.data);
+        }
+    }, [route.params]);
+
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message: 'Ürün bilgisi: ' + urun.urunAdi + '\n' + urun.urunAciklamasi,
+            });
+            if (result.action === Share.sharedAction) {
+                console.log("Paylaşma başarılı oldu");
+            } else if (result.action === Share.dismissedAction) {
+                console.log("Paylaşma iptal edildi");
+            }
+        } catch (error) {
+            Alert.alert(error.message);
+        }
+    };
+
+    if (!urun) {
+        return null;
+    }
 
     return (
-        <ScrollView>
-            <View style={{ alignItems: "center", backgroundColor: "#e9967a" }}>
-                <Text style={styles.HeadText}>{urun.urunAdi}</Text>
+        <ScrollView style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.headText}>{urun.urunAdi}</Text>
             </View>
-            <View style={{ flexDirection: "row", margin: 10 }}>
-                <Text style={styles.text}>Açıklama = </Text>
-                <Text style={styles.text}>{urun.urunAciklamasi}</Text>
+            <View style={styles.section}>
+                <Text style={styles.label}>Açıklama:</Text>
+                <Text style={styles.description}>{urun.urunAciklamasi}</Text>
             </View>
-            <View style={{ alignItems: "center", marginTop: 29 }}>
-                <Text style={{ fontSize: 15, fontWeight: "bold" }}>Ürün Tanıtımı</Text>
-                <Text>{urun.urunlerUzunAciklama}</Text>
+            <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Ürün Tanıtımı</Text>
+                <Text style={styles.description}>{urun.urunlerUzunAciklama}</Text>
+            </View>
+            <View style={styles.shareButtonContainer}>
+                <Button title='Ürünü Paylaş' onPress={onShare} color="#e9967a" />
+            </View>
+            <View style={styles.qrCodeContainer}>
+                <QRCode
+                    value={urun.urunAdi}
+                    size={200}
+                    color="white"
+                    backgroundColor="black"
+                />
             </View>
         </ScrollView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
-    HeadText: {
-        fontSize: 38,
-        fontWeight: "bold",
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingVertical: 20,
+        paddingHorizontal: 20,
     },
-    text: {
-        fontSize: 18
-    }
-})
+    header: {
+        backgroundColor: '#e9967a',
+        alignItems: 'center',
+        paddingVertical: 15,
+        marginBottom: 20,
+        borderRadius: 10,
+    },
+    headText: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
+    section: {
+        marginBottom: 20,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: '#333',
+    },
+    label: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+        color: '#333',
+    },
+    description: {
+        fontSize: 16,
+        lineHeight: 24,
+        color: '#666',
+    },
+    shareButtonContainer: {
+        marginTop: 20,
+        backgroundColor: '#e9967a',
+        borderRadius: 5,
+        alignSelf: 'center',
+        width: '50%',
+    },
+    qrCodeContainer: {
+        alignItems: 'center',
+        marginTop: 20,
+    },
+});
