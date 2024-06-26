@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View ,Image,PermissionsAndroid} from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { launchCamera } from 'react-native-image-picker';
+import {launchCamera,launchImageLibrary} from 'react-native-image-picker';
 export default function App() {
 
     const[cameraPhoto,setCameraPhoto] = useState()
@@ -12,12 +12,7 @@ export default function App() {
         ) 
         if(granted === PermissionsAndroid.RESULTS.GRANTED){
             console.log("izin")
-            const result = await launchCamera({
-                saveToPhotos : true,
-                mediaType:"photo",
-                buttonPositive:"OK",
-                buttonNegative:"Cancel"
-            })
+            const result = await launchCamera()
             setCameraPhoto(result.assets[0]?.uri) 
         }
     }

@@ -11,7 +11,8 @@ import Kamera from "../components/Camera.js"
 import { AntDesign } from '@expo/vector-icons';
 import Filtre from '../components/Filtre.js';
 import api from '../api/api.js';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function App() {
     const navigation = useNavigation();
@@ -54,8 +55,8 @@ export default function App() {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ backgroundColor: "pink", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+        <View style={{ flex: 1, paddingBottom: 50 }}>
+            <View style={{ backgroundColor: "#87CEEB", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <SearchBar
                     input={term}
                     inputChange={setTerm}
@@ -109,7 +110,14 @@ export default function App() {
                 )}
                 keyExtractor={(item, index) => index.toString()} 
             />
-            
+            <View style={styles.footer}>
+                <TouchableOpacity style={{marginHorizontal:20}}>
+                <MaterialCommunityIcons name="face-man-profile" size={47} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginHorizontal:20}}>
+                <Ionicons name="settings" size={40}  color="black" />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginHorizontal: 16,
         color: '#333',
-        marginTop:8
+        marginTop: 8
     },
     itemContainer: {
         marginHorizontal: 10,
@@ -141,4 +149,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#555',
     },
+    footer: {
+        position: 'absolute',
+        left: 17,
+        right: 17,
+        bottom: 5,
+        height: 65,
+        backgroundColor: '#f0e68c',
+        justifyContent: 'center',
+        alignItems: 'center',
+        //justifyContent:"space-between",
+        flexDirection: "row",
+        borderRadius:25,
+        
+    },
+    
 });
