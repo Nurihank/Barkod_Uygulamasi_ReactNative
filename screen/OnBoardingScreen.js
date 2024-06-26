@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-
+import { OnboardFlow } from 'react-native-onboard';
 export default function OnboardingScreen() {
   const navigation = useNavigation()
 
@@ -9,38 +9,27 @@ export default function OnboardingScreen() {
     navigation.navigate("Ana Sayfa")
   }
 
-    return (
-        <Onboarding
-          onDone={handleDone}
-          onSkip={handleDone}
-            pages={[
-                {
-                    backgroundColor: '#f7f7f7',
-                    title: <Text style={styles.title}>MERHABALAR</Text>,
-                    subtitle: <Text style={styles.subtitle}>Aradığın her türlü kamp ürünleri</Text>,
-                    image: <Image style={styles.img} source={require('../assets/urun.jpg')} />,
-                },
-                {
-                    backgroundColor: '#f7f7f7',
-                    title: <Text style={styles.title}>KAMP ÜRÜNLERİ</Text>,
-                    subtitle: <Text style={styles.subtitle}>İstediğin kategoriye göre ürünler vardır binlerce çadır binlerce kamp ürünleri</Text>,
-                    image: <Image style={styles.img} source={require('../assets/urun.jpg')} />,
-                },
-                {
-                  backgroundColor: '#f7f7f7',
-                  title: <Text style={styles.title}>KAMP ÜRÜNLERİ</Text>,
-                  subtitle: <Text style={styles.subtitle}>İstediğin kategoriye göre ürünler vardır binlerce çadır binlerce kamp ürünleri</Text>,
-                  image: <Image style={styles.img} source={require('../assets/urun.jpg')} />,
-              },
-              {
-                backgroundColor: '#f7f7f7', 
-                title: <Text style={styles.title}>KAMP ÜRÜNLERİ</Text>,
-                subtitle: <Text style={styles.subtitle}>İstediğin kategoriye göre ürünler vardır binlerce çadır binlerce kamp ürünleri</Text>,
-                image: <Image style={styles.img} source={require('../assets/urun.jpg')} />,
-            },
-            ]}
-        />
-    );
+  return (
+    <OnboardFlow
+      onDone={handleDone}
+      pages={[
+        {
+          title: 'UYGULAMAYA HOŞGELDİN',
+          subtitle: 'Aradığın her kamp ürünü '+'\n'+'bu uygulamada',
+          imageUri: 'https://frigade.com/img/example1.png',
+        },
+        {
+          title: 'HER TÜRLÜ KAMP ÜRÜNÜ',
+          subtitle: 'İstediğin kategoriye tıkla'+'\n'+' binlerce ürüne anında erişebilirsin'+'\n'+' aradığın her türlü ürün bu uygulamada',
+          imageUri: 'https://frigade.com/img/example2.png',
+          
+        }
+      ]}
+      type={'fullscreen'}
+      
+      
+    />
+  );
 }
 
 const styles = StyleSheet.create({

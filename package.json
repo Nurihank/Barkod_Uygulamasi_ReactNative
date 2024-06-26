@@ -21,6 +21,7 @@
     "react-native": "^0.74.2",
     "react-native-camera": "^4.2.1",
     "react-native-image-picker": "^7.1.2",
+    "react-native-onboard": "^2.6.0",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-permissions": "^4.1.5",
     "react-native-qrcode-scanner": "^1.5.5",
