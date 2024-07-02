@@ -8,18 +8,17 @@ export default function UrunEkleme({ visible, Cikis }) {
     const [urunAdi, setUrunAdi] = useState("")
     const [aciklamasi, setAciklamasi] = useState("")
     const [uzunAciklamasi, setUzunAciklamasi] = useState("")
-    const [dosyaYolu, setDosyaYolu] = useState("")
+    const [dosyaYolu, setDosyaYolu] = useState()
     const navigation = useNavigation();
 
     const UrunEkle = async () => {
-        const response = await api.post("/UrunEkle", {
-            urunAdi: urunAdi,
-            urunAciklamasi: aciklamasi,
-            urunlerResmi: dosyaYolu,
-            urunlerUzunAciklama: uzunAciklamasi
-
+        const response = await api.post("/UrunControllers", {
+            UrunAdi: urunAdi,
+            UrunAciklamasi: aciklamasi,
+            KategoriID: uzunAciklamasi,
+            //KategoriID: dosyaYolu,
         })
-        if (response.data.status == 200) {
+        if (response.data == "Başarıyla eklendi") {
             setUrunAdi("")
             setAciklamasi("")
             setDosyaYolu("")
@@ -47,7 +46,7 @@ export default function UrunEkleme({ visible, Cikis }) {
                     value={aciklamasi}
                     onChangeText={setAciklamasi}
                 />
-                <Text style={styles.label}>Ürünün Uzun Açıklaması</Text>
+                <Text style={styles.label}>Kategori ID</Text>
                 <TextInput
                     style={styles.textInput}
                     value={uzunAciklamasi}

@@ -4,13 +4,9 @@ import { useEffect, useState } from "react"
 export default () => {
     const UrunGetir = async (urunAra) => {
         
-        const response = await api.get("/UrunGetir", {
-            params: {
-                urunAdi: urunAra
-            }
-        }) 
-       // console.log(response.data.message )
-        return response.data.message 
+        const response = await api.get("/UrunControllers") 
+    //    console.log(response.data )
+        return response.data
     }
      
     const KategoriGetir = async (kategoriAra) => {

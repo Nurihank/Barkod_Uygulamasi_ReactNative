@@ -26,6 +26,7 @@ export default function App() {
 
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
+      //  console.log(urunResult)
         setGelenUrun(urunResult) // gelen sonucu set ettik    
     };
 
@@ -36,7 +37,7 @@ export default function App() {
     const Cikis = () => { //modaldan çıkışı sağlıyoz
         setUrunEkleVisible(false);
         setUrunSilVisible(false);       
-        UrunleriGetirme();
+        UrunleriGetirme(false);
     };
 
    async function Siralama (siralamaSecme){
