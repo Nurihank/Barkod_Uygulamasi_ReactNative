@@ -7,12 +7,12 @@ import { useNavigation } from '@react-navigation/native';
 import SearchApi from '../hooks/SearchApi';
 import UrunEkleme from '../components/UrunEkleme';
 import UrunSilme from '../components/UrunSilme';
-import Kamera from "../components/Camera.js"
 import { AntDesign } from '@expo/vector-icons';
 import Filtre from '../components/Filtre.js';
 import api from '../api/api.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import CameraModal from '../components/CameraModal.js';
 
 export default function App() {
     const navigation = useNavigation();
@@ -22,7 +22,7 @@ export default function App() {
     const [urunEkleVisible, setUrunEkleVisible] = useState(false);
     const [urunSilVisible, setUrunSilVisible] = useState(false);
     const [urunFiltrele, setUrunFiltrele] = useState(false);
-
+    const [cameraModal, setCameraModal] = useState(false);
 
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
@@ -38,6 +38,7 @@ export default function App() {
         setUrunEkleVisible(false);
         setUrunSilVisible(false);       
         UrunleriGetirme(false);
+        setCameraModal(false); 
     };
 
    async function Siralama (siralamaSecme){
@@ -88,7 +89,13 @@ export default function App() {
                     <AntDesign name="filter" size={35} color="black" />
                 </TouchableOpacity>
                 <View style={{ flexDirection: "row" }}>
-                    <Kamera/>
+                    <TouchableOpacity  onPress={()=>setCameraModal(true)}>
+                        <MaterialCommunityIcons name="qrcode-scan" size={24} color="black" />
+                    </TouchableOpacity>
+                    <CameraModal
+                        visible={cameraModal}
+                        Cikis={Cikis}
+                    />
                     <Filtre 
                         visible={urunFiltrele}
                         Cikis={Cikis}
