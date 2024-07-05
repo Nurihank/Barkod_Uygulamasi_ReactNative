@@ -90,7 +90,7 @@ export default function App() {
                 </TouchableOpacity>
                 <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity  onPress={()=>setCameraModal(true)}>
-                        <MaterialCommunityIcons name="qrcode-scan" size={24} color="black" />
+                        <MaterialCommunityIcons name="qrcode-scan" size={32} color="black" />
                     </TouchableOpacity>
                     <CameraModal
                         visible={cameraModal}

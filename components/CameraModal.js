@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, StyleSheet, Text, View, Button } from 'react-native';
+import { Modal, StyleSheet, Text, View, Button, Share } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { FontAwesome5 } from '@expo/vector-icons'; // 
+import { Entypo } from '@expo/vector-icons';
+import { CameraView, Camera } from "expo-camera";
 
 export default function CameraModal({ visible, Cikis }) {
   const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false); // Taranan QR kodunu kontrol etmek için state
-  const [scannedData, setScannedData] = useState(null); // Taranan QR kodunun verisini saklamak için state
+  const [scanned, setScanned] = useState(false);
+  const [scannedData, setScannedData] = useState(null);
+  const [data, setData] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -14,10 +18,13 @@ export default function CameraModal({ visible, Cikis }) {
     })();
   }, []); 
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned =async ({ type, data }) => {
     setScanned(true);
     setScannedData({ type, data });
-    alert(`QR Kodu Türü: ${type}\nİçerik: ${data}`);
+    setData(data);
+    //alert(`QR Kodu Türü: ${type}\nİçerik: ${data}`);
+    onShare()
+    
   };
 
   const handleScanAgain = () => {
@@ -28,6 +35,17 @@ export default function CameraModal({ visible, Cikis }) {
   if (!visible) {
     return null;
   }
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: "Ürün Bilgisi : " + data
+      });
+      
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <Modal 
@@ -43,14 +61,15 @@ export default function CameraModal({ visible, Cikis }) {
         />
         {scanned && (
           <View style={styles.buttonContainer}>
-            <Button title={'Tekrar Tara'} onPress={handleScanAgain} />
-            <Button title={'Kapat'} onPress={Cikis} />
+            <Entypo name="share-alternative" size={30} color="white" onPress={onShare} />
+            <FontAwesome5 name="redo" size={30} color="white" onPress={handleScanAgain} />
+            <FontAwesome5 name="times" size={30} color="white" onPress={Cikis} />
           </View>
         )}
         {!scanned && (
           <View style={styles.messageContainer}>
             <Text>Barkod okutulmadı.</Text>
-            <Button title={'Kapat'} onPress={Cikis} />
+            <FontAwesome5 name="times" size={24} color="black" onPress={Cikis} />
           </View>
         )}
       </View>
@@ -63,11 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Modal arkaplanını koyulaştırır
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   scanner: {
     width: '80%',
-    height: '80%', // Make the scanner take 80% of the modal's height
+    height: '80%',
     borderWidth: 1,
     borderColor: '#FFF',
   },
