@@ -10,13 +10,16 @@ export default function KategoriEkleme({ visible, Cikis }) {
     const[kategoriAdi,setKategoriAdi] = useState()
 
     const KategoriEkle  = async () => {
-        const response = await api.post("/KategoriEkle", {
-            kategoriAdi: kategoriAdi
+        const response = await api.post("/KategoriControllers", {
+            KategoriAdi: kategoriAdi
         })
-        if (response.data.status == 200) {
+        console.log(response.data)
+        if (response.data == "Kategori Başarıyla Eklendi") {
             setKategoriAdi("")
-            Alert.alert("Başarıyla eklendi")
+            Alert.alert(response.data)
             Cikis() //cikis fonksiyonu çalışır
+        }else{
+            Alert.alert(response.data)
         }
 
     }

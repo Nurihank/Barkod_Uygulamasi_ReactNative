@@ -38,8 +38,16 @@ export default function App() {
         setUrunEkleVisible(false);
         setUrunSilVisible(false);       
         UrunleriGetirme(false);
-        setCameraModal(false); 
+        setCameraModal(false);
     };
+
+    const CameraModalCikis = (term)=>{
+        setCameraModal(false);
+        if(term){
+            Alert.alert(term)
+            console.log(term)
+        }
+    }
 
    async function Siralama (siralamaSecme){
         setUrunFiltrele(false)
@@ -95,6 +103,7 @@ export default function App() {
                     <CameraModal
                         visible={cameraModal}
                         Cikis={Cikis}
+                        CameraModalCikis={CameraModalCikis}
                     />
                     <Filtre 
                         visible={urunFiltrele}

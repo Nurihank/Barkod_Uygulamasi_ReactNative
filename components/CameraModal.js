@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, StyleSheet, Text, View, Button, Share } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { FontAwesome5 } from '@expo/vector-icons'; // 
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { CameraView, Camera } from "expo-camera";
 
-export default function CameraModal({ visible, Cikis }) {
+export default function CameraModal({ visible, Cikis ,CameraModalCikis}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scannedData, setScannedData] = useState(null);
@@ -16,36 +15,38 @@ export default function CameraModal({ visible, Cikis }) {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
-  }, []); 
+  }, []);
 
   const handleBarCodeScanned =async ({ type, data }) => {
     setScanned(true);
     setScannedData({ type, data });
-    setData(data);
-    //alert(`QR Kodu Türü: ${type}\nİçerik: ${data}`);
-    onShare()
-    
+    CameraModalCikis(data)
+    setScanned(false);
+    setScannedData(null);
+    setData(null)
+   //  onShare(data)
   };
 
   const handleScanAgain = () => {
     setScanned(false);
     setScannedData(null);
+    setData(null)
+    
   };
+
+  /* const onShare = async (UrunBilgisi) => {
+    try {
+      await Share.share({
+        message: "Ürün Bilgisi : " + UrunBilgisi
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  }; */
 
   if (!visible) {
     return null;
   }
-
-  const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message: "Ürün Bilgisi : " + data
-      });
-      
-    } catch (error) {
-      alert(error.message);
-    }
-  };
 
   return (
     <Modal 
@@ -54,14 +55,21 @@ export default function CameraModal({ visible, Cikis }) {
       transparent={true}
     >
       <View style={styles.modalContainer}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          
-          style={styles.scanner}
-        />
+        {hasPermission === null ? (
+          <Text>Kamera izni isteniyor...</Text>
+        ) : hasPermission === false ? (
+          <Text>Kameraya erişim izni verilmedi.</Text>
+        ) : (
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={styles.scanner}
+          />
+        )}
         {scanned && (
           <View style={styles.buttonContainer}>
-            <Entypo name="share-alternative" size={30} color="white" onPress={onShare} />
+            <Entypo name="share-alternative" size={30} color="white"
+            // onPress={onShare}
+             />
             <FontAwesome5 name="redo" size={30} color="white" onPress={handleScanAgain} />
             <FontAwesome5 name="times" size={30} color="white" onPress={Cikis} />
           </View>

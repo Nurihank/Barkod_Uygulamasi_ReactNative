@@ -11,13 +11,9 @@ export default () => {
      
     const KategoriGetir = async (kategoriAra) => {
         
-        const response = await api.get("/KategoriGetir", {
-            params: {
-                kategoriAdi:kategoriAra
-            }
-        }) 
+        const response = await api.get("/KategoriControllers") 
        // console.log(response.data.message )
-        return response.data.message 
+        return response.data 
     }  
 
     useEffect(() => {  

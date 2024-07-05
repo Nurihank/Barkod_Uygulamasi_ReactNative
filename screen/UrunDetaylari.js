@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, Share, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, Share, Alert, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function UrunDetaylari({ route }) {
     const [urun, setUrun] = useState(null);
-
+    console.log(route.params.data)
     useEffect(() => {
         if (route.params && route.params.data) {
             setUrun(route.params.data);
         }
-    }, [route.params]);
+    }, [route.params]); 
 
+    const UpdateUrun =async ()=>{
+        const response = await api.put("/UrunControllers",{
+            
+        })
+    }
     const onShare = async () => {
         try {
             const result = await Share.share({
@@ -50,9 +56,14 @@ export default function UrunDetaylari({ route }) {
                 <QRCode
                     value={urun.urunAdi}
                     size={200}
-                    color="white"
-                    backgroundColor="black"
+                    color="black"
+                    backgroundColor="white"
                 />
+            </View>
+            <View style={styles.editContainer}>
+                <TouchableOpacity onPress={UpdateUrun}>
+                    <FontAwesome name="edit" size={40} color="black" />
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -107,9 +118,20 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignSelf: 'center',
         width: '50%',
+        overflow: 'hidden',
     },
     qrCodeContainer: {
         alignItems: 'center',
         marginTop: 20,
+        padding: 10,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: '#e9967a',
+        borderRadius: 10,
+    },
+    editContainer: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginLeft:280
     },
 });
