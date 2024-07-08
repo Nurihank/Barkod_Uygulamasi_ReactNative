@@ -5,18 +5,14 @@ import { FontAwesome } from '@expo/vector-icons';
 
 export default function UrunDetaylari({ route }) {
     const [urun, setUrun] = useState(null);
-    console.log(route.params.data)
+
+   // console.log(route.params.data)
     useEffect(() => {
         if (route.params && route.params.data) {
             setUrun(route.params.data);
         }
     }, [route.params]); 
 
-    const UpdateUrun =async ()=>{
-        const response = await api.put("/UrunControllers",{
-            
-        })
-    }
     const onShare = async () => {
         try {
             const result = await Share.share({
@@ -31,7 +27,7 @@ export default function UrunDetaylari({ route }) {
             Alert.alert(error.message);
         }
     };
-
+    //console.log(urun)
     if (!urun) {
         return null;
     }
@@ -61,7 +57,7 @@ export default function UrunDetaylari({ route }) {
                 />
             </View>
             <View style={styles.editContainer}>
-                <TouchableOpacity onPress={UpdateUrun}>
+                <TouchableOpacity>
                     <FontAwesome name="edit" size={40} color="black" />
                 </TouchableOpacity>
             </View>

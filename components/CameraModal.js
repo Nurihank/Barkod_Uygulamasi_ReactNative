@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, StyleSheet, Text, View, Button, Share } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { CameraView,Camera } from 'expo-camera';
 
 export default function CameraModal({ visible, Cikis ,CameraModalCikis}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scannedData, setScannedData] = useState(null);
-  const [data, setData] = useState("");
+
 
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -23,15 +23,11 @@ export default function CameraModal({ visible, Cikis ,CameraModalCikis}) {
     CameraModalCikis(data)
     setScanned(false);
     setScannedData(null);
-    setData(null)
-   //  onShare(data)
   };
 
   const handleScanAgain = () => {
     setScanned(false);
-    setScannedData(null);
-    setData(null)
-    
+    setScannedData(null);  
   };
 
   /* const onShare = async (UrunBilgisi) => {
@@ -60,8 +56,8 @@ export default function CameraModal({ visible, Cikis ,CameraModalCikis}) {
         ) : hasPermission === false ? (
           <Text>Kameraya erişim izni verilmedi.</Text>
         ) : (
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          <CameraView 
+            onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
             style={styles.scanner}
           />
         )}

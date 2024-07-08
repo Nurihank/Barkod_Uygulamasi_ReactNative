@@ -13,6 +13,7 @@ import api from '../api/api.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import CameraModal from '../components/CameraModal.js';
+import Deneme from './deneme.js';
 
 export default function App() {
     const navigation = useNavigation();
@@ -26,7 +27,6 @@ export default function App() {
 
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
-      //  console.log(urunResult)
         setGelenUrun(urunResult) // gelen sonucu set ettik    
     };
 
@@ -41,14 +41,27 @@ export default function App() {
         setCameraModal(false);
     };
 
-    const CameraModalCikis = (term)=>{
+    const CameraModalCikis =async (term)=>{
         setCameraModal(false);
-        if(term){
-            Alert.alert(term)
-            console.log(term)
-        }
+        const response = await api.get("/UrunControllers/"+term)
+
+        setGelenUrun([response.data])
     }
 
+    const handleScroll = (event) => {
+        const xOffset = event.nativeEvent.contentOffset.x;
+        console.log(xOffset)
+
+        // Burada sağa doğru kaydırma kontrolü yapabilirsiniz
+        if (xOffset > 20) {
+            // Sağa doğru kaydırma işlemi varsa burada istediğiniz işlevi çağırabilirsiniz
+            console.log('Sağa doğru kaydırma yapıldı!');
+            // İşlevinizi buraya yazabilirsiniz
+            // Örneğin:
+            // yourFunction();
+        }
+    };
+   
    async function Siralama (siralamaSecme){
         setUrunFiltrele(false)
         if(siralamaSecme == "1"){
@@ -126,6 +139,7 @@ export default function App() {
                     </TouchableOpacity>
                 )}
                 keyExtractor={(item, index) => index.toString()} 
+                onScroll={handleScroll}
             />
             <View style={styles.footer}>
                 <TouchableOpacity style={{marginHorizontal:20}}>
@@ -133,6 +147,9 @@ export default function App() {
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginHorizontal:20}}>
                 <Ionicons name="settings" size={40}  color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginHorizontal:20}} onPress={Deneme}>
+                <Ionicons name="settings" size={40}  color="white" />
                 </TouchableOpacity>
             </View>
         </View>

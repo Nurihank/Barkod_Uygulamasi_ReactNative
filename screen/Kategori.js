@@ -51,7 +51,7 @@ export default function Kategori() {
       <FlatList
         data={gelenKategori}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer} onPress={()=>navigation.navigate("Kategori Detayı",{id:item.idkategori,kategoriAdi:item.kategoriAdi})}>
+          <TouchableOpacity style={styles.itemContainer} onPress={()=>navigation.navigate("Kategori Detayı",{Kategori:item})}>
             <Text style={styles.itemText}>{item.kategoriAdi}</Text>
           </TouchableOpacity>
         )}
