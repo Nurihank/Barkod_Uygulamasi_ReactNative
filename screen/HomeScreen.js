@@ -43,7 +43,7 @@ export default function App() {
     const CameraModalCikis =async (term)=>{
         setCameraModal(false);
         const response = await api.get("/UrunControllers/"+term)
-
+        alert(term)
         setGelenUrun([response.data])
     }
 
