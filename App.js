@@ -9,7 +9,6 @@ import UrunDetaylari from './screen/UrunDetaylari.js';
 import Kategori from './screen/Kategori.js';
 import KategoriDetaylari from './screen/KategoriDetaylari.js';
 import Onboarding from './screen/OnBoardingScreen.js';
-import Deneme from './screen/deneme.js';
 
 export default function App() {
   return (
@@ -21,7 +20,6 @@ export default function App() {
         <Stack.Screen name="Ürün Sayfasi" component={UrunDetaylari} />
         <Stack.Screen name="Kategori Sayfasi" component={Kategori} />
         <Stack.Screen name="Kategori Detayı" component={KategoriDetaylari} />
-        <Stack.Screen name="Deneme" component={Deneme} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -13,7 +13,6 @@ import api from '../api/api.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import CameraModal from '../components/CameraModal.js';
-import Deneme from './deneme.js';
 
 export default function App() {
     const navigation = useNavigation();
@@ -48,19 +47,7 @@ export default function App() {
         setGelenUrun([response.data])
     }
 
-    const handleScroll = (event) => {
-        const xOffset = event.nativeEvent.contentOffset.x;
-        console.log(xOffset)
-
-        // Burada sağa doğru kaydırma kontrolü yapabilirsiniz
-        if (xOffset > 20) {
-            // Sağa doğru kaydırma işlemi varsa burada istediğiniz işlevi çağırabilirsiniz
-            console.log('Sağa doğru kaydırma yapıldı!');
-            // İşlevinizi buraya yazabilirsiniz
-            // Örneğin:
-            // yourFunction();
-        }
-    };
+    
    
    async function Siralama (siralamaSecme){
         setUrunFiltrele(false)
@@ -135,21 +122,17 @@ export default function App() {
                     <TouchableOpacity style={styles.itemContainer}
                         onPress={() => { navigation.navigate("Ürün Sayfasi", { data : item }) }}>
                         <Text style={styles.itemText}>{item.urunAdi}</Text>
-                        <Text style={styles.itemText}>{item.fiyat}</Text>
+                        <Text style={styles.itemText}>{item.urunFiyati}</Text>
                     </TouchableOpacity>
                 )}
                 keyExtractor={(item, index) => index.toString()} 
-                onScroll={handleScroll}
             />
             <View style={styles.footer}>
                 <TouchableOpacity style={{marginHorizontal:20}}>
-                <MaterialCommunityIcons name="face-man-profile" size={47} color="black" />
+                    <MaterialCommunityIcons name="face-man-profile" size={47} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginHorizontal:20}}>
-                <Ionicons name="settings" size={40}  color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginHorizontal:20}} onPress={Deneme}>
-                <Ionicons name="settings" size={40}  color="white" />
+                    <Ionicons name="settings" size={40}  color="black" />
                 </TouchableOpacity>
             </View>
         </View>
