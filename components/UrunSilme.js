@@ -8,6 +8,7 @@ export default function UrunSilme({ visible, Cikis }) {
     const [term, setTerm] = useState("");
     const [UrunGetir] = SearchApi();
     const [gelenUrun, setGelenUrun] = useState([]);
+   // const [silinecekUrunID, setSilinecekUrunID] = useState(null); // Silinecek ürünün ID'sini saklar
 
     useEffect(() => {
         UrunleriGetirme(); // İlk renderda ürünleri getir
@@ -46,12 +47,25 @@ export default function UrunSilme({ visible, Cikis }) {
         }
     };
 
+    const handleUrunSil = (id) => {
+        
+        Alert.alert(
+            "Emin misiniz?",
+            "Ürünü silmek istediğinizden emin misiniz?",
+            [
+                { text: "Hayır", style: "cancel" },
+                { text: "Evet", onPress: () => UrunSil(id) }
+            ]
+        );
+    };
+
     return (
-        <View style={styles.centeredView}>
-            <Modal
-                animationType="slide"
-                visible={visible}
-            >
+        <Modal
+            animationType="slide"
+            visible={visible}
+            transparent={true}
+        >
+            <View style={styles.centeredView}>
                 <View style={styles.modalContent}>
                     <Text style={styles.title}>Silmek istediğiniz ürünü seçin:</Text>
                     <SearchBar
@@ -68,7 +82,7 @@ export default function UrunSilme({ visible, Cikis }) {
                         renderItem={({ item }) => (
                             <TouchableOpacity
                                 style={styles.itemContainer}
-                                onPress={() => { UrunSil(item.urunID) }}
+                                onPress={() => handleUrunSil(item.urunID)} // onPress event'i ile handleUrunSil fonksiyonunu çağır
                             >
                                 <Text style={styles.itemText}>{item.urunAdi}</Text>
                                 <Text style={styles.itemText}>{item.urunAciklamasi}</Text>
@@ -76,17 +90,18 @@ export default function UrunSilme({ visible, Cikis }) {
                         )}
                         keyExtractor={(item, index) => index.toString()}
                     />
+                    <View style={styles.buttonContainer}>
+                        <Button title="ÇIKIŞ" onPress={Cikis} />
+                    </View>
                 </View>
-                <View style={styles.buttonContainer}>
-                    <Button title="ÇIKIŞ" onPress={Cikis} />
-                </View>
-            </Modal>
-        </View>
+            </View>
+        </Modal>
     );
 }
 
 const styles = StyleSheet.create({
     centeredView: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -96,6 +111,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         width: '90%',
+        maxHeight: '80%', // Modal içeriğinin ekran yüksekliğinin en fazla %80'sini kaplamasını sağlar
         alignSelf: 'center',
     },
     title: {

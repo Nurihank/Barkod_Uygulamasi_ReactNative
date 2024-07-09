@@ -7,22 +7,26 @@ import { FontAwesome5 } from '@expo/vector-icons';
 export default function UrunEkleme({ visible, Cikis }) {
     const [urunAdi, setUrunAdi] = useState("");
     const [aciklamasi, setAciklamasi] = useState("");
-    const [uzunAciklamasi, setUzunAciklamasi] = useState("");
-    const [dosyaYolu, setDosyaYolu] = useState();
+    const [kategoriID, setKategoriID] = useState("");
+    const [barkodNo, setBarkodNo] = useState();
+    const [fiyat, setFiyat] = useState();
     const navigation = useNavigation();
 
     const UrunEkle = async () => {
         const response = await api.post("/UrunControllers", {
             UrunAdi: urunAdi,
             UrunAciklamasi: aciklamasi,
-            KategoriID: uzunAciklamasi,
+            KategoriID: kategoriID,
+            UrunBarcode:barkodNo,
+            UrunFiyati:fiyat
             //KategoriID: dosyaYolu,
         });
         if (response.data == "Başarıyla eklendi") {
             setUrunAdi("");
             setAciklamasi("");
-            setDosyaYolu("");
-            setUzunAciklamasi("");
+            setKategoriID("");
+            setBarkodNo("");
+            setFiyat("")
             Alert.alert("Başarıyla eklendi");
             Cikis(); //cikis fonksiyonu çalışır
         }
@@ -49,8 +53,20 @@ export default function UrunEkleme({ visible, Cikis }) {
                 <Text style={styles.label}>Kategori ID</Text>
                 <TextInput
                     style={styles.textInput}
-                    value={uzunAciklamasi}
-                    onChangeText={setUzunAciklamasi}
+                    value={kategoriID}
+                    onChangeText={setKategoriID}
+                />
+                <Text style={styles.label}>Ürünün Barkod Numarası</Text>
+                <TextInput
+                    style={styles.textInput}
+                    value={barkodNo}
+                    onChangeText={setBarkodNo}
+                />
+                <Text style={styles.label}>Ürünün Fiyatı</Text>
+                <TextInput
+                    style={styles.textInput}
+                    value={fiyat}
+                    onChangeText={setFiyat}
                 />
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => UrunEkle()}>

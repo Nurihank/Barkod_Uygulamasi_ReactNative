@@ -42,13 +42,12 @@ export default function App() {
 
     const CameraModalCikis =async (term)=>{
         setCameraModal(false);
-        const response = await api.get("/UrunControllers/"+term)
         alert(term)
+        const response = await api.get("/UrunControllers/UrunBarcode/"+term)
+    //    alert(term)
         setGelenUrun([response.data])
     }
-
-    
-   
+ 
    async function Siralama (siralamaSecme){
         setUrunFiltrele(false)
         if(siralamaSecme == "1"){

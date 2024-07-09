@@ -21,6 +21,7 @@ export default function CameraModal({ visible, Cikis, CameraModalCikis }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setScannedData({ type, data });
+    console.log(data)
     CameraModalCikis(data);
     setScanned(false);
     setScannedData(null);

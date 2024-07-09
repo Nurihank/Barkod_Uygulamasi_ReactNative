@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, Share, Alert, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { FontAwesome } from '@expo/vector-icons';
+import Barcode from '@kichiyaki/react-native-barcode-generator';
 
 export default function UrunDetaylari({ route }) {
     const [urun, setUrun] = useState(null);
@@ -27,12 +28,12 @@ export default function UrunDetaylari({ route }) {
             Alert.alert(error.message);
         }
     };
-    //console.log(urun)
+
     if (!urun) {
         return null;
     }
 
-    return (
+    return (  
         <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headText}>{urun.urunAdi}</Text>
@@ -49,11 +50,10 @@ export default function UrunDetaylari({ route }) {
                 <Button title='Ürünü Paylaş' onPress={onShare} color="#e9967a" />
             </View>
             <View style={styles.qrCodeContainer}>
-                <QRCode
-                    value={urun.urunAdi}
-                    size={200}
-                    color="black"
-                    backgroundColor="white"
+                <Barcode
+                    format="CODE128"
+                    value={urun.urunBarcode}
+                    text={urun.urunBarcode}
                 />
             </View>
             <View style={styles.editContainer}>
@@ -64,13 +64,11 @@ export default function UrunDetaylari({ route }) {
         </ScrollView>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingVertical: 20,
-        paddingHorizontal: 20,
+        padding: 20,
     },
     header: {
         backgroundColor: '#e9967a',
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
     },
     qrCodeContainer: {
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 50,
         padding: 10,
         backgroundColor: 'white',
         borderWidth: 1,
@@ -128,6 +126,6 @@ const styles = StyleSheet.create({
     editContainer: {
         alignItems: 'center',
         marginTop: 50,
-        marginLeft:280
+        marginLeft: 280,
     },
 });

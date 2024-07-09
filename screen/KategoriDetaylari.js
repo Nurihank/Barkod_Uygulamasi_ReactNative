@@ -11,9 +11,7 @@ export default function KategoriDetaylari({ route }) {
     // API'den kategoriye göre ürünleri getir
     const kategoriyeGoreUrunGetirme = async () => {
         try {
-            
-            const response = await api.get('/KategoriControllers/'+route.params.Kategori.kategoriID);
-            console.log(response.data)
+            const response = await api.get('/KategoriControllers/'+route.params.Kategori.kategoriID)
             setGelenUrun(response.data)
         } catch (error) {
             console.log('API hatası:', error);
