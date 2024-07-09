@@ -27,7 +27,7 @@ const Filtre = ({ visible, Cikis, Siralama }) => {
                         <Text style={styles.closeButtonText}>Çıkış</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </View> 
         </Modal>
     );
 };

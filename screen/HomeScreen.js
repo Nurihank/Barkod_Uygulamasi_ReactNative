@@ -51,14 +51,14 @@ export default function App() {
    async function Siralama (siralamaSecme){
         setUrunFiltrele(false)
         if(siralamaSecme == "1"){
-            const response = await api.get("/AdanZye")
-            setGelenUrun(response.data.message);
+            const response = await api.get("/FiltreControllers/"+siralamaSecme)  
+            setGelenUrun(response.data);
         }else if(siralamaSecme == "2"){
-            const response = await api.get("/UcuzdanPahaliya")
-            setGelenUrun(response.data.message);
+            const response = await api.get("/FiltreControllers/"+siralamaSecme)    
+            setGelenUrun(response.data);
         }else if(siralamaSecme == "3"){
-            const response = await api.get("/PahalidanUcuza")
-            setGelenUrun(response.data.message);
+            const response = await api.get("/FiltreControllers/"+siralamaSecme)    
+            setGelenUrun(response.data);
         }
         
     }
@@ -136,7 +136,7 @@ export default function App() {
             </View>
         </View>
     );
-}
+} 
 
 const styles = StyleSheet.create({
     headText: {
