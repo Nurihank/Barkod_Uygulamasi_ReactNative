@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         borderRadius: 18,
         height: 50,
         alignItems: "center",
-        flex:1,
+        width:275,
         justifyContent: "space-between"
     }
 })

@@ -3,8 +3,6 @@ import { View, StyleSheet, Text, TouchableHighlight, TouchableOpacity, FlatList 
 import SearchApi from '../hooks/SearchApi';
 import SearchBar from '../components/SearchBar';
 import { AntDesign } from '@expo/vector-icons';
-import UrunSilme from '../components/UrunSilme';
-import UrunEkleme from '../components/UrunEkleme';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import KategoriEkleme from '../components/KategoriEkleme';
@@ -42,7 +40,6 @@ export default function Kategori() {
         <TouchableHighlight style={styles.iconButton} onPress={() => setKategoriEkleVisible(true)}>
           <FontAwesome5 name="plus-circle" size={24} color="black" />
         </TouchableHighlight>
-
         <KategoriEkleme visible={kategoriEkleVisible} Cikis={Cikis} />
       </View>
       <View style={styles.header}>

@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import FiyatAraligiModal from "./FiyatAraligiModal";
 
-const Filtre = ({ visible, Cikis, Siralama }) => {
+const Filtre = ({ visible, Cikis, Siralama ,FiyatAraliginaGoreArama}) => {
     const [siralamaSecme, setSiralamaSecme] = useState("");
+    const [fiyatAraligiModalVisible, setFiyatAraligiModalVisible] = useState(false)
+
+    const FiyatAraligiFiltrele = ()=>{
+        console.log(fiyatAraligiModalVisible)
+        setFiyatAraligiModalVisible(true)
+       // Cikis()
+    }
 
     return (
         <Modal
@@ -23,7 +31,17 @@ const Filtre = ({ visible, Cikis, Siralama }) => {
                     <TouchableOpacity style={styles.optionButton} onPress={() => setSiralamaSecme("3")}>
                         <Text style={styles.optionText}>Pahalıdan Ucuza</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.closeButton} onPress={() => Siralama(siralamaSecme)}>
+                    <TouchableOpacity style={styles.optionButton} onPress={FiyatAraligiFiltrele}>
+                        <Text style={styles.optionText}>Fiyat Aralığı</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.closeButton} onPress={()=>Siralama(siralamaSecme)}>
+                        <Text style={styles.closeButtonText}>Filtrele</Text>
+                    </TouchableOpacity>
+                    <FiyatAraligiModal
+                        visible={fiyatAraligiModalVisible}
+                        FiyatAraliginaGoreArama={FiyatAraliginaGoreArama}
+                    />
+                    <TouchableOpacity style={styles.closeButton} onPress={Cikis}>
                         <Text style={styles.closeButtonText}>Çıkış</Text>
                     </TouchableOpacity>
                 </View>
