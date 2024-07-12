@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View, TouchableHighlight } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-export default function FiyatAraligiModal({ visible, FiyatAraliginaGoreArama, Cikis }) {
+export default function FiyatAraligiModal({ visible, FiyatAraliginaGoreArama, Cikis,FiyatAraligiModalKapatma }) {
   const [enDüsük, setEnDüsük] = useState('');
   const [enYüksek, setEnYüksek] = useState('');
 
+  const handlePress = ()=>{
+    FiyatAraliginaGoreArama(enDüsük,enYüksek)
+    FiyatAraligiModalKapatma()
+  }
   return (
     <Modal 
         visible={visible} 
@@ -30,7 +34,7 @@ export default function FiyatAraligiModal({ visible, FiyatAraliginaGoreArama, Ci
                 placeholder='En Yüksek'
                 keyboardType='numeric'
                 />
-                <TouchableOpacity style={styles.button} onPress={() => FiyatAraliginaGoreArama(enDüsük, enYüksek)}>
+                <TouchableOpacity style={styles.button} onPress={() => handlePress()}>
                 <Text style={styles.buttonText}>Bu Aralıkla Arama Yap</Text>
                 </TouchableOpacity>
             </View>

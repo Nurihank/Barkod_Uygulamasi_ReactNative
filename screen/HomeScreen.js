@@ -16,7 +16,7 @@ import CameraModal from '../components/CameraModal.js';
 import { MaterialIcons } from '@expo/vector-icons';
 import FiyatAraligiModal from '../components/FiyatAraligiModal.js';
 import { endEvent } from 'react-native/Libraries/Performance/Systrace.js';
-
+import { Fontisto } from '@expo/vector-icons';
 
 export default function App() {
     const navigation = useNavigation();
@@ -28,14 +28,20 @@ export default function App() {
     const [urunFiltrele, setUrunFiltrele] = useState(false);
     const [cameraModal, setCameraModal] = useState(false);
     const [fiyatAraligiModalVisible, setFiyatAraligiModalVisible] = useState(false);
+    const [favoriteItems, setFavoriteItems] = useState([]);
 
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
         setGelenUrun(urunResult) // gelen sonucu set ettik    
     };
+    
+    const FavoriEkle = async(item)=>{
+        const response = await api.post()
+        
+    } 
 
     useEffect(() => {
-        UrunleriGetirme(); 
+        UrunleriGetirme();  
     }, []);
 
     const Cikis = () => { //modaldan çıkışı sağlıyoz
@@ -56,11 +62,10 @@ export default function App() {
     }
 
     const FiyatAraliginaGoreArama = async(enDüsük,enYüksek)=>{
-        console.log("Küçük "+enDüsük)
-        console.log("yüksek "+enYüksek)
         const response = await api.get("/FiltreControllers/FiyatAraligi/"+enDüsük+"/"+enYüksek)
         setGelenUrun(response.data);
         setFiyatAraligiModalVisible(false)
+        setUrunFiltrele(false)
     }
 
    async function Siralama (siralamaSecme){
@@ -159,7 +164,15 @@ export default function App() {
                 renderItem={({ item }) => (
                     <TouchableOpacity style={styles.itemContainer}
                         onPress={() => { navigation.navigate("Ürün Sayfasi", { data : item }) }}>
-                        <Text style={styles.itemText}>{item.urunAdi}</Text>
+                        <View style={styles.itemLeft}>
+                            <TouchableOpacity onPress={()=>FavoriEkle(item)}>
+                            {item.urunFavori == true ? 
+                            <MaterialIcons name="favorite" size={24} color="black" /> :
+                            <MaterialIcons name="favorite-border" size={24} color="black" />}
+                            </TouchableOpacity>
+                            
+                            <Text style={styles.itemText}>{item.urunAdi}</Text>
+                        </View>
                         <Text style={styles.itemText}>{item.urunFiyati}</Text>
                     </TouchableOpacity>
                 )}
@@ -199,9 +212,14 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginBottom: 10,
     },
+    itemLeft: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
     itemText: {
         fontSize: 16,
         color: '#555',
+        marginLeft: 10,
     },
     footer: {
         position: 'absolute',
@@ -212,10 +230,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0e68c',
         justifyContent: 'center',
         alignItems: 'center',
-        //justifyContent:"space-between",
         flexDirection: "row",
-        borderRadius:25,
-        
+        borderRadius: 25,
     },
-    
 });

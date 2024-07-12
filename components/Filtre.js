@@ -7,11 +7,11 @@ const Filtre = ({ visible, Cikis, Siralama ,FiyatAraliginaGoreArama}) => {
     const [fiyatAraligiModalVisible, setFiyatAraligiModalVisible] = useState(false)
 
     const FiyatAraligiFiltrele = ()=>{
-        console.log(fiyatAraligiModalVisible)
         setFiyatAraligiModalVisible(true)
-       // Cikis()
     }
-
+    const FiyatAraligiModalKapatma = ()=>{
+        setFiyatAraligiModalVisible(false)
+    }
     return (
         <Modal
             visible={visible}
@@ -40,6 +40,7 @@ const Filtre = ({ visible, Cikis, Siralama ,FiyatAraliginaGoreArama}) => {
                     <FiyatAraligiModal
                         visible={fiyatAraligiModalVisible}
                         FiyatAraliginaGoreArama={FiyatAraliginaGoreArama}
+                        FiyatAraligiModalKapatma={FiyatAraligiModalKapatma}
                     />
                     <TouchableOpacity style={styles.closeButton} onPress={Cikis}>
                         <Text style={styles.closeButtonText}>Çıkış</Text>
