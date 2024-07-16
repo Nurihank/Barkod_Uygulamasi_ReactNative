@@ -3,16 +3,36 @@ import { StyleSheet, Text, View, ScrollView, Button, Share, Alert, TouchableOpac
 import QRCode from 'react-native-qrcode-svg';
 import { FontAwesome } from '@expo/vector-icons';
 import Barcode from '@kichiyaki/react-native-barcode-generator';
-
+import { MaterialIcons } from '@expo/vector-icons';
+import api from '../api/api';
+import Kullanici from '../Models/UserModel';
 export default function UrunDetaylari({ route }) {
     const [urun, setUrun] = useState(null);
-
+    const [favoriMi,setFavoriMi] = useState(false)
    // console.log(route.params.data)
     useEffect(() => {
         if (route.params && route.params.data) {
+            
             setUrun(route.params.data);
         }
+
     }, [route.params]); 
+
+    useEffect(() => {
+        FavoriMiKontrol()
+    }, [])
+
+    const FavoriMiKontrol = async ()=>{
+        console.log(Kullanici.id)
+        console.log(route.params.data.urunID)
+        const response = await api.get("/FavoriteControllers/FavoriMi", {
+            params: {
+                UrunID: route.params.data.urunID,
+                KullaniciID: Kullanici.id,
+            }
+        });
+        setFavoriMi(response.data)
+    }
 
     const onShare = async () => {
         try {
@@ -35,7 +55,9 @@ export default function UrunDetaylari({ route }) {
 
     return (  
         <ScrollView style={styles.container}>
+           
             <View style={styles.header}>
+                
                 <Text style={styles.headText}>{urun.urunAdi}</Text>
             </View>
             <View style={styles.section}>
@@ -61,6 +83,15 @@ export default function UrunDetaylari({ route }) {
                     <FontAwesome name="edit" size={40} color="black" />
                 </TouchableOpacity>
             </View>
+            <View>
+                {favoriMi 
+                ?
+                    <MaterialIcons name="favorite" size={40} color="black" /> 
+                :
+                    <MaterialIcons name="favorite-border" size={40} color="black" />
+                }
+                
+            </View>
         </ScrollView>
     );
 }
@@ -76,6 +107,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         marginBottom: 20,
         borderRadius: 10,
+        flexDirection:"row"
     },
     headText: {
         fontSize: 32,

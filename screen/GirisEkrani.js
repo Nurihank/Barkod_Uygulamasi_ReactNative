@@ -12,7 +12,7 @@ export default function GirisEkrani() {
 
     
     const GirisYap = async()=>{
-        const response = await api.post("/KullaniciControllers",{
+        const response = await api.post("/KullaniciControllers/KullaniciGiris",{
             KullaniciAdi:kullaniciAdi,
             Sifre:sifre
         })
@@ -24,10 +24,7 @@ export default function GirisEkrani() {
             Alert.alert(response.data)
         }
     }
-    const KayitOl = ()=>{
-        console.log(kullaniciAdi)
-        console.log(sifre)
-    }
+    
   return (
     <View style={styles.container}>
         <View style={styles.HeaderContainer}>
@@ -59,7 +56,7 @@ export default function GirisEkrani() {
             </TouchableOpacity>
         </View>
         <View style={styles.ButtonContainerKayıt}> 
-            <TouchableOpacity onPress={KayitOl}>
+            <TouchableOpacity onPress={()=>navigation.navigate("Kayıt Ekranı")}>
                 <Text style={styles.textKayit}>Kayıt Ol</Text>
             </TouchableOpacity>
         </View>
