@@ -14,9 +14,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import CameraModal from '../components/CameraModal.js';
 import { MaterialIcons } from '@expo/vector-icons';
-import FiyatAraligiModal from '../components/FiyatAraligiModal.js';
-import { endEvent } from 'react-native/Libraries/Performance/Systrace.js';
 import { Fontisto } from '@expo/vector-icons';
+import FavoriModal from './FavoriEkrani.js';
+import Kullanici from '../Models/UserModel.js';
 
 export default function App() {
     const navigation = useNavigation();
@@ -27,18 +27,19 @@ export default function App() {
     const [urunSilVisible, setUrunSilVisible] = useState(false);
     const [urunFiltrele, setUrunFiltrele] = useState(false);
     const [cameraModal, setCameraModal] = useState(false);
-    const [fiyatAraligiModalVisible, setFiyatAraligiModalVisible] = useState(false);
-    const [favoriteItems, setFavoriteItems] = useState([]);
+    const [favoriModalVisible, setFavoriModalVisible] = useState(false);
 
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
         setGelenUrun(urunResult) // gelen sonucu set ettik    
     };
-    
-    const FavoriEkle = async(item)=>{
-        const response = await api.post()
-        
-    } 
+
+    console.log(Kullanici.id)
+    const FiyatAraliginaGoreArama = async(enDüsük,enYüksek)=>{
+        const response = await api.get("/FiltreControllers/FiyatAraligi/"+enDüsük+"/"+enYüksek)
+        setGelenUrun(response.data);
+        setUrunFiltrele(false)
+    }
 
     useEffect(() => {
         UrunleriGetirme();  
@@ -47,10 +48,10 @@ export default function App() {
     const Cikis = () => { //modaldan çıkışı sağlıyoz
         setUrunEkleVisible(false);
         setUrunSilVisible(false);       
-        UrunleriGetirme(false);
         setCameraModal(false);
         setUrunFiltrele(false)
-        setFiyatAraligiModalVisible(false)
+        setFavoriModalVisible(false)
+        UrunleriGetirme()
     };
 
     const CameraModalCikis =async (term)=>{
@@ -61,12 +62,6 @@ export default function App() {
         setGelenUrun([response.data])
     }
 
-    const FiyatAraliginaGoreArama = async(enDüsük,enYüksek)=>{
-        const response = await api.get("/FiltreControllers/FiyatAraligi/"+enDüsük+"/"+enYüksek)
-        setGelenUrun(response.data);
-        setFiyatAraligiModalVisible(false)
-        setUrunFiltrele(false)
-    }
 
    async function Siralama (siralamaSecme){
         
@@ -112,29 +107,26 @@ export default function App() {
                     <FontAwesome5 name="plus-circle" size={24} color="black" />
                 </TouchableHighlight>
 
-                <UrunEkleme visible={urunEkleVisible} //ürün ekleme modalı
+                <UrunEkleme 
+                    visible={urunEkleVisible} //ürün ekleme modalı
                     Cikis={Cikis}
                 />
                 <TouchableHighlight style={{ marginRight: 15 }} onPress={() => setUrunSilVisible(true)}>
                     <FontAwesome5 name="trash" size={24} color="black" />
                 </TouchableHighlight>
 
-                <UrunSilme visible={urunSilVisible}
+                <UrunSilme 
+                    visible={urunSilVisible}
                     Cikis={Cikis}
                 />
             </View>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 10 }}>
                 <TouchableOpacity onPress={()=>setUrunFiltrele(true)}>
-                    <AntDesign name="filter" size={35} color="black" />
+                    <MaterialCommunityIcons name="sort" size={32} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>setFiyatAraligiModalVisible(true)}>
-                    <MaterialIcons name="price-change" size={30} color="black" />
+                <TouchableOpacity onPress={()=>navigation.navigate("Favori")}>
+                    <Fontisto name="favorite" size={30} color="black" />
                 </TouchableOpacity>
-                <FiyatAraligiModal
-                    visible={fiyatAraligiModalVisible}
-                    FiyatAraliginaGoreArama={FiyatAraliginaGoreArama}
-                    Cikis={Cikis}
-                />
                 <TouchableOpacity onPress={()=>navigation.navigate("Ürünleri Karşılaştır")}>
                     <MaterialIcons name="compare" size={35} color="black" />
                 </TouchableOpacity>
@@ -163,14 +155,8 @@ export default function App() {
                 data={gelenUrun}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={styles.itemContainer}
-                        onPress={() => { navigation.navigate("Ürün Sayfasi", { data : item }) }}>
+                        onPress={() =>  navigation.navigate("Ürün Sayfasi", { data : item }) }>
                         <View style={styles.itemLeft}>
-                            <TouchableOpacity onPress={()=>FavoriEkle(item)}>
-                            {item.urunFavori == true ? 
-                            <MaterialIcons name="favorite" size={24} color="black" /> :
-                            <MaterialIcons name="favorite-border" size={24} color="black" />}
-                            </TouchableOpacity>
-                            
                             <Text style={styles.itemText}>{item.urunAdi}</Text>
                         </View>
                         <Text style={styles.itemText}>{item.urunFiyati}</Text>
@@ -178,7 +164,7 @@ export default function App() {
                 )}
             />
             <View style={styles.footer}>
-                <TouchableOpacity style={{marginHorizontal:20}}>
+                <TouchableOpacity style={{marginHorizontal:20}} onPress={()=>navigation.navigate("Profil")}>
                     <MaterialCommunityIcons name="face-man-profile" size={47} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginHorizontal:20}} >
