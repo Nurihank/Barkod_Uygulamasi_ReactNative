@@ -16,7 +16,6 @@ export default function GirisEkrani() {
             KullaniciAdi:kullaniciAdi,
             Sifre:sifre
         })
-        console.log(response.data)
         if("Başarıyla Giriş Yaptın" == response.data.message){
             Kullanici.id = response.data.userId;
             navigation.navigate("Ana Sayfa")
@@ -29,7 +28,7 @@ export default function GirisEkrani() {
     <View style={styles.container}>
         <View style={styles.HeaderContainer}>
             <Text style={styles.HeaderText}>
-                KULLANICI GİRİŞİ
+                GİRİŞ YAP
             </Text>
             <Text>
                 
@@ -47,6 +46,7 @@ export default function GirisEkrani() {
                 value={sifre}
                 onChangeText={setSifre}
                 placeholder='Sifre'
+                secureTextEntry
                 style={styles.input}
             />
         </View>
@@ -66,69 +66,69 @@ export default function GirisEkrani() {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        alignItems:"center",
-        justifyContent:"center",
-        backgroundColor:"#b0e0e6"
-    },
-    HeaderText:{
-        fontSize:40,
-        fontWeight:"bold",
-        color:"#FFFFFF",
-        height:110
-    },
-    HeaderContainer:{
-        backgroundColor:"#8fbc8f",
-        width:300,
-        height:150,
-        justifyContent:"center",
-        alignItems:"center",
-        borderRadius:15,
-        marginBottom:25
-    },
-    input: {
-        width:250, // Genişlik ayarı
-        height: 60, // Yükseklik ayarı
-        borderColor: '#007BFF', // Kenar rengi
-        borderWidth: 1, // Kenar kalınlığı
-        borderRadius: 5, // Kenar yuvarlama
-        paddingHorizontal: 15, // İç boşluk
-        fontSize: 20, // Yazı boyutu
-        color: '#333', // Yazı rengi
-        backgroundColor: '#fff', // Arka plan rengi
-        marginVertical:15
-      },
-      ButtonContainer:{
-        backgroundColor:"#00ced1",
-        left:100,
-        marginTop:20,
-        height:50,
-        width:150,
-        alignItems:"center",
-        justifyContent:"center",
-        borderRadius:15
-      },
-      textGiris:{
-        fontSize:20,
-        fontWeight:"e0ffff",
-        color:"white",
-        fontWeight:"bold"
-      },
-      textKayit:{
-        fontSize:20,
-        fontWeight:"bold",
-        color:"#00ced1",
-        fontWeight:"bold"
-      },
-      ButtonContainerKayıt:{
-        backgroundColor:"white",
-        left:100,
-        marginTop:20,
-        height:50,
-        width:150,
-        alignItems:"center",
-        justifyContent:"center",
-        borderRadius:15
-      }
-})
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#e0f7fa", // Açık mavi
+  },
+  HeaderContainer: {
+    backgroundColor: "#ffffff", // Beyaz
+    width: 300,
+    height: 120,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+    marginBottom: 25,
+  },
+  HeaderText: {
+    fontSize: 40,
+    fontWeight: "bold",
+    color: "#00796b", // Koyu yeşil
+    height: 50,
+  },
+  input: {
+    width: 275,
+    height: 45,
+    borderColor: '#007BFF',
+    borderWidth: 1,
+    borderRadius: 15,
+    paddingHorizontal: 15,
+    fontSize: 20,
+    color: '#333',
+    backgroundColor: '#ffffff',
+    marginVertical: 15,
+  },
+  ButtonContainer: {
+    backgroundColor: "#00796b", // Koyu yeşil
+    left: 100,
+    marginTop: 20,
+    height: 50,
+    width: 150,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 15,
+  },
+  textGiris: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+  },
+  textKayit: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#00796b",
+  },
+  ButtonContainerKayıt: {
+    backgroundColor: "#ffffff", // Beyaz
+    left: 100,
+    marginTop: 20,
+    height: 50,
+    width: 150,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: "#00796b", // Kenar rengi
+  },
+});

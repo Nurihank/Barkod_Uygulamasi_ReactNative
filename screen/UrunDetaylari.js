@@ -9,22 +9,43 @@ import Kullanici from '../Models/UserModel';
 export default function UrunDetaylari({ route }) {
     const [urun, setUrun] = useState(null);
     const [favoriMi,setFavoriMi] = useState(false)
-   // console.log(route.params.data)
+
     useEffect(() => {
         if (route.params && route.params.data) {
-            
             setUrun(route.params.data);
         }
-
     }, [route.params]); 
-
+ 
     useEffect(() => {
         FavoriMiKontrol()
     }, [])
 
+    const FavorilereEkle = async()=>{
+        const response = await api.put("/FavoriteControllers/FavoriEkle",{
+            UrunID: route.params.data.urunID,
+            KullaniciID: Kullanici.id,
+        })
+        if("Favoriye Eklendi" == response.data){
+            FavoriMiKontrol()
+        }
+    }
+
+    const FavorilerdenCikar = async()=>{
+        const response = await api.delete("/FavoriteControllers/FavoriSil", {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                UrunID: route.params.data.urunID,
+                KullaniciID: Kullanici.id,
+            }
+        });       
+        if(response.data){
+            FavoriMiKontrol()
+        }
+    }
+
     const FavoriMiKontrol = async ()=>{
-        console.log(Kullanici.id)
-        console.log(route.params.data.urunID)
         const response = await api.get("/FavoriteControllers/FavoriMi", {
             params: {
                 UrunID: route.params.data.urunID,
@@ -40,9 +61,9 @@ export default function UrunDetaylari({ route }) {
                 message: 'Ürün bilgisi: ' + urun.urunAdi + '\n' + urun.urunAciklamasi,
             });
             if (result.action === Share.sharedAction) {
-                console.log("Paylaşma başarılı oldu");
+
             } else if (result.action === Share.dismissedAction) {
-                console.log("Paylaşma iptal edildi");
+
             }
         } catch (error) {
             Alert.alert(error.message);
@@ -86,9 +107,14 @@ export default function UrunDetaylari({ route }) {
             <View>
                 {favoriMi 
                 ?
+                <TouchableOpacity onPress={FavorilerdenCikar}>
                     <MaterialIcons name="favorite" size={40} color="black" /> 
+                </TouchableOpacity>
+                    
                 :
+                <TouchableOpacity onPress={FavorilereEkle}>
                     <MaterialIcons name="favorite-border" size={40} color="black" />
+                </TouchableOpacity>
                 }
                 
             </View>

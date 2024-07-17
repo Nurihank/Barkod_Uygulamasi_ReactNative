@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, FlatList, StyleSheet, TouchableOpacity, View, Text, Image, TouchableHighlight, ScrollView } from 'react-native';
+import { Alert, FlatList, StyleSheet, TouchableOpacity, View, Text, Image, TouchableHighlight } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
 import React, { useState, useEffect } from 'react';
@@ -30,122 +30,99 @@ export default function App() {
     const [favoriModalVisible, setFavoriModalVisible] = useState(false);
 
     const UrunleriGetirme = async () => {
-        const urunResult = await UrunGetir(term); // api çağrısından sonucu aldık
-        setGelenUrun(urunResult) // gelen sonucu set ettik    
+        const urunResult = await UrunGetir(term);
+        setGelenUrun(urunResult);
     };
 
-    console.log(Kullanici.id)
-    const FiyatAraliginaGoreArama = async(enDüsük,enYüksek)=>{
-        const response = await api.get("/FiltreControllers/FiyatAraligi/"+enDüsük+"/"+enYüksek)
+    const FiyatAraliginaGoreArama = async (enDüşük, enYüksek) => {
+        const response = await api.get("/FiltreControllers/FiyatAraligi/" + enDüşük + "/" + enYüksek);
         setGelenUrun(response.data);
-        setUrunFiltrele(false)
-    }
+        setUrunFiltrele(false);
+    };
 
     useEffect(() => {
-        UrunleriGetirme();  
+        UrunleriGetirme();
     }, []);
 
-    const Cikis = () => { //modaldan çıkışı sağlıyoz
+    const Cikis = () => {
         setUrunEkleVisible(false);
-        setUrunSilVisible(false);       
+        setUrunSilVisible(false);
         setCameraModal(false);
-        setUrunFiltrele(false)
-        setFavoriModalVisible(false)
-        UrunleriGetirme()
+        setUrunFiltrele(false);
+        setFavoriModalVisible(false);
+        UrunleriGetirme();
     };
 
-    const CameraModalCikis =async (term)=>{
+    const CameraModalCikis = async (term) => {
         setCameraModal(false);
-        alert(term)
-        const response = await api.get("/UrunControllers/UrunBarcode/"+term)
-    //    alert(term)
-        setGelenUrun([response.data])
-    }
+        const response = await api.get("/UrunControllers/UrunBarcode/" + term);
+        setGelenUrun([response.data]);
+    };
 
-
-   async function Siralama (siralamaSecme){
-        
-        if(siralamaSecme == "1"){
-            const response = await api.get("/FiltreControllers/"+siralamaSecme)  
-            setGelenUrun(response.data);
-            setUrunFiltrele(false)
-        }else if(siralamaSecme == "2"){
-            const response = await api.get("/FiltreControllers/"+siralamaSecme)    
-            setGelenUrun(response.data);
-            setUrunFiltrele(false)
-        }else if(siralamaSecme == "3"){
-            const response = await api.get("/FiltreControllers/"+siralamaSecme)    
-            setGelenUrun(response.data);
-            setUrunFiltrele(false)
-        }else{
-            Alert.alert(
-                "FİLTRELEME SEÇ",
-                "Herhangi Bir Filtreleme Seçmen Lazım",
-                [
-                    {
-                      text: 'Tamam',
-                      style: 'cancel',
-                    },
-                  ],
-            ) 
-        }
-        
+    async function Siralama(siralamaSecme) {
+        const response = await api.get("/FiltreControllers/" + siralamaSecme);
+        setGelenUrun(response.data);
+        setUrunFiltrele(false);
     }
 
     return (
         <View style={{ flex: 1, paddingBottom: 50 }}>
-            <View style={{ backgroundColor: "#87CEEB", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <View style={{ backgroundColor: "#f0f0f0", flexDirection: "row", justifyContent: "space-arround", alignItems: "center" }}>
                 <SearchBar
                     input={term}
                     inputChange={setTerm}
                     inputEnd={UrunleriGetirme}
                 />
-                <TouchableOpacity onPress={()=>navigation.navigate("Kategori Sayfasi")}>
-                    <AntDesign name="windowso" size={30} color="black" />  
+                <TouchableOpacity onPress={() => navigation.navigate("Kategori Sayfasi")}>
+                    <AntDesign name="windowso" size={30} color="black" />
                 </TouchableOpacity>
                 <TouchableHighlight style={{ marginHorizontal: 10 }} onPress={() => setUrunEkleVisible(true)}>
                     <FontAwesome5 name="plus-circle" size={24} color="black" />
                 </TouchableHighlight>
-
                 <UrunEkleme 
-                    visible={urunEkleVisible} //ürün ekleme modalı
+                    visible={urunEkleVisible}
                     Cikis={Cikis}
                 />
                 <TouchableHighlight style={{ marginRight: 15 }} onPress={() => setUrunSilVisible(true)}>
                     <FontAwesome5 name="trash" size={24} color="black" />
                 </TouchableHighlight>
-
                 <UrunSilme 
                     visible={urunSilVisible}
                     Cikis={Cikis}
                 />
             </View>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 10 }}>
-                <TouchableOpacity onPress={()=>setUrunFiltrele(true)}>
-                    <MaterialCommunityIcons name="sort" size={32} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate("Favori")}>
-                    <Fontisto name="favorite" size={30} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate("Ürünleri Karşılaştır")}>
-                    <MaterialIcons name="compare" size={35} color="black" />
-                </TouchableOpacity>
-                <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity  onPress={()=>setCameraModal(true)}>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={() => setUrunFiltrele(true)}>
+                        <MaterialCommunityIcons name="sort" size={32} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Favori")}>
+                        <Fontisto name="favorite" size={30} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Ürünleri Karşılaştır")}>
+                        <MaterialIcons name="compare" size={35} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={() => setCameraModal(true)}>
                         <MaterialCommunityIcons name="qrcode-scan" size={32} color="black" />
                     </TouchableOpacity>
-                    <CameraModal
-                        visible={cameraModal}
-                        Cikis={Cikis}
-                        CameraModalCikis={CameraModalCikis}
-                    />
-                    <Filtre 
-                        visible={urunFiltrele}
-                        Cikis={Cikis}
-                        Siralama={Siralama}
-                        FiyatAraliginaGoreArama={FiyatAraliginaGoreArama}
-                    />
                 </View>
+                <CameraModal
+                    visible={cameraModal}
+                    Cikis={Cikis}
+                    CameraModalCikis={CameraModalCikis}
+                />
+                <Filtre 
+                    visible={urunFiltrele}
+                    Cikis={Cikis}
+                    Siralama={Siralama}
+                    FiyatAraliginaGoreArama={FiyatAraliginaGoreArama}
+                />
             </View>
             <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
                 <Text style={styles.headText}>ÜRÜN</Text>
@@ -155,7 +132,7 @@ export default function App() {
                 data={gelenUrun}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={styles.itemContainer}
-                        onPress={() =>  navigation.navigate("Ürün Sayfasi", { data : item }) }>
+                        onPress={() => navigation.navigate("Ürün Sayfasi", { data: item })}>
                         <View style={styles.itemLeft}>
                             <Text style={styles.itemText}>{item.urunAdi}</Text>
                         </View>
@@ -164,16 +141,16 @@ export default function App() {
                 )}
             />
             <View style={styles.footer}>
-                <TouchableOpacity style={{marginHorizontal:20}} onPress={()=>navigation.navigate("Profil")}>
+                <TouchableOpacity style={{ marginHorizontal: 20 }} onPress={() => navigation.navigate("Profil")}>
                     <MaterialCommunityIcons name="face-man-profile" size={47} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={{marginHorizontal:20}} >
-                    <Ionicons name="settings" size={40}  color="black" />
+                <TouchableOpacity style={{ marginHorizontal: 20 }}>
+                    <Ionicons name="settings" size={40} color="black" />
                 </TouchableOpacity>
             </View>
         </View>
     );
-} 
+}
 
 const styles = StyleSheet.create({
     headText: {
@@ -181,7 +158,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginHorizontal: 16,
         color: '#333',
-        marginTop: 8
+        marginTop: 8,
     },
     itemContainer: {
         marginHorizontal: 10,
@@ -213,10 +190,20 @@ const styles = StyleSheet.create({
         right: 17,
         bottom: 5,
         height: 65,
-        backgroundColor: '#f0e68c',
+        backgroundColor: '#a1c6ea', 
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: "row",
         borderRadius: 25,
+    },
+    
+    buttonContainer: {
+        backgroundColor: '#f0f0f0',
+        padding: 13,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 15,
+        elevation: 19,
     },
 });

@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import api from "../api/api"
+import Kullanici from '../Models/UserModel';
+import { useNavigation } from '@react-navigation/native';
+
+
+
 export default function KayitEkrani() {
+
+  const navigation = useNavigation()
+
   const [kullaniciAdi, setKullaniciAdi] = useState('');
   const [eposta, setEposta] = useState('');
   const [sifre, setSifre] = useState('');
   const [telefonNo, setTelefonNo] = useState('');
-  const [cinsiyet, setCinsiyet] = useState('');
+  const [cinsiyet, setCinsiyet] = useState(null);
   const [yas, setYas] = useState('');
 
   const KayitOl = async () => {
@@ -14,21 +22,29 @@ export default function KayitEkrani() {
       console.error("Tüm alanları doldurun!");
       return;
     }
-    try {
-      const response = await api.post("/KullaniciControllers/KullaniciKayit", {
-        KullaniciAdi: kullaniciAdi,
-        Eposta: eposta,
-        Sifre: sifre,
-        TelefonNo: telefonNo,
-        Cinsiyet: cinsiyet,
-        Yas: yas,
-      });
+    
+    const userData = {
+      KullaniciAdi: kullaniciAdi,
+      Eposta: eposta,
+      Sifre: sifre,
+      TelNo: telefonNo,
+      Cinsiyet: cinsiyet,
+      Yas: yas,
+    };
   
-      console.log(response.data);
-      // Başarılı kayıt durumunda yapılacak işlemler
+    try {
+      const response = await api.post("/KullaniciControllers/KullaniciKayit", userData);
+
+      if (response.data.message === "okey") {
+        Kullanici.id = response.data.userId;
+        alert("Kayıt başarılı!");
+        navigation.navigate("Ana Sayfa")
+        
+      } else {
+        alert(response.data.message); // Sunucudan gelen hata mesajı
+      }
     } catch (error) {
-      console.error("Kayıt hatası:", error);
-      // Hata durumunda yapılacak işlemler
+      console.error("Kayıt hatası:", error.response?.data || error.message);
     }
   };
 
@@ -62,6 +78,7 @@ export default function KayitEkrani() {
         style={styles.input}
         placeholder="Telefon Numarası"
         value={telefonNo}
+        keyboardType="numeric"
         onChangeText={setTelefonNo}
       />
 
@@ -69,17 +86,17 @@ export default function KayitEkrani() {
       <View style={styles.radioContainer}>
         <TouchableOpacity
           style={styles.radioButton}
-          onPress={() => setCinsiyet('1')}
+          onPress={() => setCinsiyet(true)}
         >
           <Text style={styles.radioText}>Erkek</Text>
-          {cinsiyet === '1' && <View style={styles.radioSelected} />}
+          {cinsiyet === true && <View style={styles.radioSelected} />}
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.radioButton}
-          onPress={() => setCinsiyet('0')}
+          onPress={() => setCinsiyet(false)}
         >
           <Text style={styles.radioText}>Kadın</Text>
-          {cinsiyet === '0' && <View style={styles.radioSelected} />}
+          {cinsiyet === false && <View style={styles.radioSelected} />}
         </TouchableOpacity>
       </View>
 
@@ -134,7 +151,7 @@ const styles = StyleSheet.create({
   },
   radioContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     marginBottom: 15,
   },
   radioButton: {

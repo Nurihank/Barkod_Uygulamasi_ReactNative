@@ -13,7 +13,6 @@ export default function KategoriEkleme({ visible, Cikis }) {
         const response = await api.post("/KategoriControllers", {
             KategoriAdi: kategoriAdi
         })
-        console.log(response.data)
         if (response.data == "Kategori Başarıyla Eklendi") {
             setKategoriAdi("")
             Alert.alert(response.data)

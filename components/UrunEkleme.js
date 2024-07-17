@@ -55,18 +55,21 @@ export default function UrunEkleme({ visible, Cikis }) {
                     style={styles.textInput}
                     value={kategoriID}
                     onChangeText={setKategoriID}
+                    keyboardType='numeric'
                 />
                 <Text style={styles.label}>Ürünün Barkod Numarası</Text>
                 <TextInput
                     style={styles.textInput}
                     value={barkodNo}
                     onChangeText={setBarkodNo}
+                    keyboardType='numeric'
                 />
                 <Text style={styles.label}>Ürünün Fiyatı</Text>
                 <TextInput
                     style={styles.textInput}
                     value={fiyat}
                     onChangeText={setFiyat}
+                    keyboardType='numeric'
                 />
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={() => UrunEkle()}>
