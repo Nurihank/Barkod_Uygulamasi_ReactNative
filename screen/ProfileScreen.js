@@ -1,52 +1,127 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { FontAwesome } from '@expo/vector-icons';
-import { EvilIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import api from "../api/api";
+import { FontAwesome5 } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import KullaniciBilgileriGuncelleModal from '../components/KullaniciBilgileriGuncelleModal';
+import Kullanici from '../Models/UserModel';
 
 export default function ProfileScreen() {
+  const [kullaniciAdi, setKullaniciAdi] = useState('');
+  const [kullaniciBilgisi, setKullaniciBilgisi] = useState('');
+  const [eposta, setEposta] = useState('');
+  const [telefonNo, setTelefonNo] = useState('');
+  const [cinsiyet, setCinsiyet] = useState("");
+  const [yas, setYas] = useState('');
+  const [image, setImage] = useState(null);
+  const [GuncelleVisible,setGuncelleVisible] = useState(false)
 
-    const [isim, setİsim] = useState("")
-    const [email, setEmail] = useState("")
-    const [Telefon, setTelefon] = useState("")
+  useEffect(() => {
+    (async () => {
+      const libraryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+
+      if (libraryStatus.status !== 'granted' || cameraStatus.status !== 'granted') {
+        alert('Sorry, we need camera roll and camera permissions to make this work!');
+      }
+    })();
+  }, []);
+
+  const Cikis = ()=>{
+    setGuncelleVisible(false)
+    KullaniciBilgileri();
+  }
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    setImage(null)
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const takePhoto = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+  setImage(null)
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const KullaniciBilgileri = async () => {
+    const response = await api.get("/KullaniciControllers/KullaniciBilgileri/" +Kullanici.id);
+    setKullaniciBilgisi(response.data)
+
+    if (response.data.cinsiyet) { 
+      setCinsiyet("erkek");
+    }else{
+      setCinsiyet("Kadın")
+    }
+
+    setEposta(response.data.eposta);
+    setTelefonNo(response.data.telefonNo);
+    setKullaniciAdi(response.data.kullaniciAdi);
+    setYas(response.data.yas);
+  };
+
+  useEffect(() => {
+    KullaniciBilgileri();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Profilim</Text>
-        <FontAwesome name="user-circle" size={100} color="#555" />
-      </View>
-
-      <View style={styles.infoContainer}>
-        <Text style={styles.label}>İsim:</Text>
-        <View style={styles.row}>
-          <TextInput
-            value={isim}
-            onChangeText={setİsim}
-            placeholder={isim}
-          />
-          <EvilIcons name="pencil" size={30} color="black" />
+    <View style={styles.container}> 
+      <View style={styles.imageContainer}>
+        <Image 
+          source={image ? { uri: image } : require("../assets/profile-default.jpg")} 
+          style={styles.image}
+        />
+        <View style={styles.iconContainer}>
+          <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
+            <MaterialCommunityIcons name="camera" size={32} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.galleryButton} onPress={pickImage}>
+            <MaterialCommunityIcons name="image" size={32} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.editButton} onPress={()=>setGuncelleVisible(true)}>
+            <FontAwesome5 name="user-edit" size={24} color="white" />
+          </TouchableOpacity>
         </View>
       </View>
-
-      <View style={styles.infoContainer}>
-        <Text style={styles.label}>Email:</Text>
-        <View style={styles.row}>
-          <Text style={styles.info}> {email}</Text>
-          <EvilIcons name="pencil" size={30} color="black" />
+      <View style={styles.textInputContainer}>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Kullanici Adi:</Text>
+          <Text style={styles.info}>{kullaniciAdi}</Text>
+        </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Eposta:</Text>
+          <Text style={styles.info}>{eposta}</Text>
+        </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Yas:</Text>
+          <Text style={styles.info}>{yas}</Text>
+        </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Telefon Numarası:</Text>
+          <Text style={styles.info}>{telefonNo}</Text>
+        </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Cinsiyet:</Text>
+          <Text style={styles.info}>{cinsiyet}</Text>
         </View>
       </View>
-
-      <View style={styles.infoContainer}>
-        <Text style={styles.label}>Telefon:</Text>
-        <View style={styles.row}>
-          <Text style={styles.info}>{Telefon}</Text>
-          <EvilIcons name="pencil" size={30} color="black" />
-        </View>
-      </View>
-
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Düzenle</Text>
-      </TouchableOpacity>
+      <KullaniciBilgileriGuncelleModal 
+        visible={GuncelleVisible}
+        Cikis={Cikis}
+        kullaniciBilgisi={kullaniciBilgisi}
+      />
     </View>
   );
 }
@@ -54,52 +129,61 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#E8F5E9',
     padding: 20,
-    alignItems: 'center',
   },
-  header: {
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
-  },
-  infoContainer: {
+  imageContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    borderWidth: 3,
+    borderColor: '#4CAF50',
+    marginRight: 20,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cameraButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 20,
+    padding: 5,
+    marginRight: 10,
+  },
+  galleryButton: {
+    backgroundColor: '#2196F3',
+    borderRadius: 20,
+    padding: 5,
+    marginRight: 10,
+  },
+  editButton: {
+    backgroundColor: '#FF9800', 
+    borderRadius: 20,
+    padding: 5,
+  },
+  textInputContainer: {
+    marginVertical: 10,
+  },
+  inputGroup: {
+    marginVertical: 10,
   },
   label: {
-    fontSize: 18,
-    color: '#555',
-  },
-  info: {
+    fontWeight: 'bold',
     fontSize: 18,
     color: '#333',
-    
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center', // Aligns the icon and text vertically
-  
-  },
-  button: {
-    marginTop: 30,
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  info: {
+    fontSize: 16,
+    color: '#555',
+    padding: 10,
+    borderColor: '#A5D6A7', 
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: '#fff',
   },
 });

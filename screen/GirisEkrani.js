@@ -17,6 +17,7 @@ export default function GirisEkrani() {
             Sifre:sifre
         })
         if("Başarıyla Giriş Yaptın" == response.data.message){
+          console.log(response.data.userId)
             Kullanici.id = response.data.userId;
             navigation.navigate("Ana Sayfa")
         }else{

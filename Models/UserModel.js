@@ -10,4 +10,5 @@ export default class Kullanici {
     static set id(value) {
         this._id = value;
     }
+    
 }

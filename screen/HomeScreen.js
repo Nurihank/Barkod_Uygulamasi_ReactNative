@@ -16,7 +16,6 @@ import CameraModal from '../components/CameraModal.js';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import FavoriModal from './FavoriEkrani.js';
-import Kullanici from '../Models/UserModel.js';
 
 export default function App() {
     const navigation = useNavigation();
@@ -195,15 +194,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: "row",
         borderRadius: 25,
-    },
-    
-    buttonContainer: {
-        backgroundColor: '#f0f0f0',
-        padding: 13,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: 15,
-        elevation: 19,
     },
 });

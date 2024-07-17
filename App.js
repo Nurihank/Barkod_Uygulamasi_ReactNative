@@ -20,9 +20,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Giriş Ekranı" component={GirisEkrani} />
-        <Stack.Screen name="Ana Sayfa" component={HomeScreen}
+      <Stack.Screen name="Giriş Ekranı" component={GirisEkrani} />
+      <Stack.Screen name="Ana Sayfa" component={HomeScreen}
                       options={{ title: 'Ana Sayfa', headerBackVisible: false }}/>
+                        
         <Stack.Screen name="Ürün Sayfasi" component={UrunDetaylari} />
         <Stack.Screen name="Kategori Sayfasi" component={Kategori} />
         <Stack.Screen name="Kategori Detayı" component={KategoriDetaylari} />

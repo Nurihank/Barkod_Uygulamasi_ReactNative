@@ -27,7 +27,7 @@ export default function CameraModal({ visible, Cikis, CameraModalCikis }) {
   };
 
   const toggleFlash = () => {
-    setFlash(flash === 'off' ? 'torch' : 'off');  // Toggle between 'off' and 'torch'
+    setFlash(flash === 'off' ? 'on' : 'off');  // Toggle between 'off' and 'torch'
   };
 
   if (!visible) {
