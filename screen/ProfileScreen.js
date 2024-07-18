@@ -16,7 +16,7 @@ export default function ProfileScreen() {
   const [telefonNo, setTelefonNo] = useState('');
   const [cinsiyet, setCinsiyet] = useState("");
   const [yas, setYas] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(Kullanici.image);
   const [GuncelleVisible,setGuncelleVisible] = useState(false)
   const[SifreDegistirmeModalVisible,setSifreDegistirmeModalVisible] = useState(false)
 
@@ -47,9 +47,16 @@ export default function ProfileScreen() {
       aspect: [4, 3],
       quality: 1,
     });
+    
+    Kullanici.image = result.assets[0].uri
+    const response = await api.put("/KullaniciControllers/ProfilResmiKaydet",{
+      id:Kullanici.id,
+      imagePath:result.assets[0].uri
+    })
+    response();
     setImage(null)
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(Kullanici.image);
     }
   };
 
@@ -58,9 +65,16 @@ export default function ProfileScreen() {
       allowsEditing: true,
       quality: 1,
     });
-  setImage(null)
+    Kullanici.image = result.assets[0].uri
+    console.log(result.assets[0].uri)
+    setImage(null)
+    const response = await api.put("/KullaniciControllers/ProfilResmiKaydet",{
+      id:Kullanici.id,
+      imagePath:result.assets[0].uri
+    })
+    
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(Kullanici.image);
     }
   };
 
