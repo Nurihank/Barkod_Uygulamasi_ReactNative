@@ -10,11 +10,9 @@ export default function KullaniciBilgileriGuncelleModal({ visible, Cikis, kullan
     const [cinsiyet, setCinsiyet] = useState(true);
 
     useEffect(() => {
-        console.log(kullaniciBilgisi)
         setTelefonNo(kullaniciBilgisi.telefonNo)
         setYas(kullaniciBilgisi.yas)
     }, [kullaniciBilgisi]);
-console.log(Kullanici.id)
     const handleUpdate = async () => {
         try {
             const response = await api.put("/KullaniciControllers/KullaniciGuncelle", {

@@ -1,15 +1,16 @@
-import { Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Button, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { WhiteBalance } from 'expo-camera/build/legacy/Camera.types'
 import api from '../api/api'
 import { useNavigation } from '@react-navigation/native'
 import Kullanici from '../Models/UserModel'
+import SifremiUnuttumModal from '../components/SifremiUnuttumModal'
 export default function GirisEkrani() {
 
     const [kullaniciAdi, setKullaniciAdi] = useState("")
     const [sifre, setSifre] = useState("")
     const navigation = useNavigation();
-
+    const[SifremiUnuttumModalVisible,setSifremiUnuttumVisible] = useState(false);
     
     const GirisYap = async()=>{
         const response = await api.post("/KullaniciControllers/KullaniciGiris",{
@@ -17,22 +18,27 @@ export default function GirisEkrani() {
             Sifre:sifre
         })
         if("Başarıyla Giriş Yaptın" == response.data.message){
-          console.log(response.data.userId)
+
             Kullanici.id = response.data.userId;
             navigation.navigate("Ana Sayfa")
+            setKullaniciAdi("")
+            setSifre("")
         }else{
             Alert.alert(response.data)
+            setKullaniciAdi("")
+            setSifre("")
         }
     }
     
+    const SifremiUnuttumModalCikis = ()=>{
+      setSifremiUnuttumVisible(false)
+    }
+
   return (
     <View style={styles.container}>
         <View style={styles.HeaderContainer}>
             <Text style={styles.HeaderText}>
                 GİRİŞ YAP
-            </Text>
-            <Text>
-                
             </Text>
         </View>
         
@@ -51,6 +57,13 @@ export default function GirisEkrani() {
                 style={styles.input}
             />
         </View>
+        <View style={styles.sifremiUnuttumContainer}>
+          <TouchableOpacity onPress={()=>setSifremiUnuttumVisible(true)}>
+            <Text style={{fontWeight:"bold"}}>
+              Şifremi Unuttum
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.ButtonContainer}> 
             <TouchableOpacity onPress={GirisYap}>
                 <Text style={styles.textGiris}>Giriş Yap</Text>
@@ -61,7 +74,10 @@ export default function GirisEkrani() {
                 <Text style={styles.textKayit}>Kayıt Ol</Text>
             </TouchableOpacity>
         </View>
-      
+        <SifremiUnuttumModal
+          visible={SifremiUnuttumModalVisible}
+          Cikis={SifremiUnuttumModalCikis}
+        />
     </View>
   )
 }
@@ -102,7 +118,7 @@ const styles = StyleSheet.create({
   },
   ButtonContainer: {
     backgroundColor: "#00796b", // Koyu yeşil
-    left: 100,
+    left: 70,
     marginTop: 20,
     height: 50,
     width: 150,
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
   },
   ButtonContainerKayıt: {
     backgroundColor: "#ffffff", // Beyaz
-    left: 100,
+    left: 70,
     marginTop: 20,
     height: 50,
     width: 150,
@@ -132,4 +148,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#00796b", // Kenar rengi
   },
+  sifremiUnuttumContainer:{
+    left:120
+  }
 });

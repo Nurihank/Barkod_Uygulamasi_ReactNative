@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import api from "../api/api";
@@ -6,6 +6,8 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import KullaniciBilgileriGuncelleModal from '../components/KullaniciBilgileriGuncelleModal';
 import Kullanici from '../Models/UserModel';
+import SifreYenileModal from '../components/SifreYenileModal';
+import SifreDegistirmeModal from '../components/SifreDegistirmeModal';
 
 export default function ProfileScreen() {
   const [kullaniciAdi, setKullaniciAdi] = useState('');
@@ -16,6 +18,7 @@ export default function ProfileScreen() {
   const [yas, setYas] = useState('');
   const [image, setImage] = useState(null);
   const [GuncelleVisible,setGuncelleVisible] = useState(false)
+  const[SifreDegistirmeModalVisible,setSifreDegistirmeModalVisible] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -28,8 +31,13 @@ export default function ProfileScreen() {
     })();
   }, []);
 
+  const SifreYenileme = ()=>{
+    setSifreDegistirmeModalVisible(true)
+  }
+
   const Cikis = ()=>{
     setGuncelleVisible(false)
+    setSifreDegistirmeModalVisible(false)
     KullaniciBilgileri();
   }
   const pickImage = async () => {
@@ -116,13 +124,27 @@ export default function ProfileScreen() {
           <Text style={styles.label}>Cinsiyet:</Text>
           <Text style={styles.info}>{cinsiyet}</Text>
         </View>
+        <View>
+          <View style={styles.changePasswordContainer}>
+            <TouchableOpacity style={styles.changePasswordButton} onPress={SifreYenileme}>
+                <Text style={styles.changePasswordText}>Şifre Değiştirme</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+          
       </View>
       <KullaniciBilgileriGuncelleModal 
         visible={GuncelleVisible}
         Cikis={Cikis}
         kullaniciBilgisi={kullaniciBilgisi}
       />
+      <SifreDegistirmeModal
+        visible={SifreDegistirmeModalVisible}
+        Cikis={Cikis}
+        KullaniciAdi={kullaniciAdi}
+      />
     </View>
+    
   );
 }
 
@@ -135,7 +157,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   image: {
     width: 150,
@@ -162,7 +184,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   editButton: {
-    backgroundColor: '#FF9800', 
+    backgroundColor: '#FF9800',
     borderRadius: 20,
     padding: 5,
   },
@@ -181,9 +203,30 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#555',
     padding: 10,
-    borderColor: '#A5D6A7', 
+    borderColor: '#A5D6A7',
     borderWidth: 2,
     borderRadius: 10,
     backgroundColor: '#fff',
   },
+  changePasswordContainer: {
+    alignItems: "flex-end",
+    marginVertical: 20,
+  },
+  changePasswordButton: {
+    backgroundColor: '#FF5722',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  changePasswordText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });
+
