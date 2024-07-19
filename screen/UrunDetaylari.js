@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, Share, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, Share, Alert, TouchableOpacity, Modal } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { FontAwesome } from '@expo/vector-icons';
 import Barcode from '@kichiyaki/react-native-barcode-generator';
 import { MaterialIcons } from '@expo/vector-icons';
 import api from '../api/api';
 import Kullanici from '../Models/UserModel';
+import UrunDuzenlemeModal from '../components/UrunDuzenlemeModal';
+
 export default function UrunDetaylari({ route }) {
+
     const [urun, setUrun] = useState(null);
     const [favoriMi,setFavoriMi] = useState(false)
+    const [UrunDuzenlemeModalVisible,setUrunDuzenlemeModalVisible] = useState(false)
 
     useEffect(() => {
         if (route.params && route.params.data) {
             setUrun(route.params.data);
         }
     }, [route.params]); 
- 
+ console.log(route.params.data)
     useEffect(() => {
         FavoriMiKontrol()
     }, [])
@@ -28,6 +32,11 @@ export default function UrunDetaylari({ route }) {
         if("Favoriye Eklendi" == response.data){
             FavoriMiKontrol()
         }
+    }
+
+    const Cikis = ()=>{
+        setUrunDuzenlemeModalVisible(false)
+
     }
 
     const FavorilerdenCikar = async()=>{
@@ -86,8 +95,8 @@ export default function UrunDetaylari({ route }) {
                 <Text style={styles.description}>{urun.urunAciklamasi}</Text>
             </View>
             <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Ürün Tanıtımı</Text>
-                <Text style={styles.description}>{urun.urunlerUzunAciklama}</Text>
+                <Text style={styles.sectionTitle}>Ürün Fiyatı</Text>
+                <Text style={styles.description}>{urun.urunFiyati}</Text>
             </View>
             <View style={styles.shareButtonContainer}>
                 <Button title='Ürünü Paylaş' onPress={onShare} color="#e9967a" />
@@ -101,7 +110,7 @@ export default function UrunDetaylari({ route }) {
             </View>
             <View style={styles.editContainer}>
                 <TouchableOpacity>
-                    <FontAwesome name="edit" size={40} color="black" />
+                    <FontAwesome name="edit" size={40} color="black" onPress={()=>setUrunDuzenlemeModalVisible(true)}/>
                 </TouchableOpacity>
             </View>
             <View>
@@ -118,6 +127,12 @@ export default function UrunDetaylari({ route }) {
                 }
                 
             </View>
+            <UrunDuzenlemeModal
+                visible={UrunDuzenlemeModalVisible}
+                Cikis={Cikis}
+                Urun={urun}
+                UrunID={route.params.data.urunID}
+            />
         </ScrollView>
     );
 }
