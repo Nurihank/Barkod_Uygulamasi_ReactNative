@@ -98,7 +98,7 @@ export default function App() {
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate("Favori")}>
-                        <Fontisto name="favorite" size={30} color="black" />
+                        <MaterialIcons name="favorite" size={35} color="black" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.buttonContainer}>

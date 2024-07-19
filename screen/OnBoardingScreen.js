@@ -6,7 +6,7 @@ export default function OnboardingScreen() {
   const navigation = useNavigation()
 
   const handleDone = ()=>{
-    navigation.navigate("Ana Sayfa")
+    navigation.navigate("Giriş Ekranı")
   }
 
   return (

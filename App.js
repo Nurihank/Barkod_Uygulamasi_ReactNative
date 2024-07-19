@@ -20,6 +20,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Onboarding" component={Onboarding} />
+
       <Stack.Screen name="Giriş Ekranı" component={GirisEkrani} />
       <Stack.Screen name="Ana Sayfa" component={HomeScreen}
                       options={{ title: 'Ana Sayfa', headerBackVisible: false }}/>

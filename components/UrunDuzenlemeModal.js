@@ -8,7 +8,6 @@ export default function UrunDuzenlemeModal({ visible, Cikis ,Urun,UrunID}) {
     const [urunAciklamasi, setUrunAciklamasi] = useState(Urun.urunAciklamasi)
     const [urunFiyati, setUrunFiyati] = useState(Urun.urunFiyati)
     const [urunBarkodu, setUrunBarkodu] = useState(Urun.urunBarcode)
-    console.log(urunFiyati)
 
     if (!Urun) {
         return (
@@ -33,6 +32,7 @@ export default function UrunDuzenlemeModal({ visible, Cikis ,Urun,UrunID}) {
                 UrunBarcode: urunBarkodu
             });
             console.log(response.data);
+            Cikis()
             // Burada response ile ne yapmak istediğinizi belirleyin
         } catch (error) {
             console.error("API isteği sırasında hata oluştu:", error);

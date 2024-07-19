@@ -12,18 +12,19 @@ export default function UrunDetaylari({ route }) {
 
     const [urun, setUrun] = useState(null);
     const [favoriMi,setFavoriMi] = useState(false)
-    const [UrunDuzenlemeModalVisible,setUrunDuzenlemeModalVisible] = useState(false)
+    const [UrunDuzenlemeModalVisible,setUrunDuzenlemeModalVisible] = useState(false) 
 
-    useEffect(() => {
-        if (route.params && route.params.data) {
-            setUrun(route.params.data);
-        }
-    }, [route.params]); 
- console.log(route.params.data)
+    const[ad,setAd] = useState()
+    const[aciklama,setAciklama] = useState()
+    const[Fiyatı,setFiyat] = useState()
+    const[barkod,setBarkod] = useState()
+
     useEffect(() => {
         FavoriMiKontrol()
+        UrunGetir()
     }, [])
 
+ 
     const FavorilereEkle = async()=>{
         const response = await api.put("/FavoriteControllers/FavoriEkle",{
             UrunID: route.params.data.urunID,
@@ -33,10 +34,21 @@ export default function UrunDetaylari({ route }) {
             FavoriMiKontrol()
         }
     }
+ 
+    const UrunGetir = async()=>{
+        const response = await api.get("/UrunControllers/Urun/"+route.params.data.urunID)
+
+        setUrun(response.data)
+        setAd(response.data.urunAdi)
+        setAciklama(response.data.urunAciklamasi)
+        setBarkod(response.data.urunBarcode)
+        setFiyat(response.data.urunFiyati)
+
+    }
 
     const Cikis = ()=>{
         setUrunDuzenlemeModalVisible(false)
-
+        UrunGetir()
     }
 
     const FavorilerdenCikar = async()=>{
@@ -88,15 +100,15 @@ export default function UrunDetaylari({ route }) {
            
             <View style={styles.header}>
                 
-                <Text style={styles.headText}>{urun.urunAdi}</Text>
+                <Text style={styles.headText}>{ad}</Text>
             </View>
             <View style={styles.section}>
                 <Text style={styles.label}>Açıklama:</Text>
-                <Text style={styles.description}>{urun.urunAciklamasi}</Text>
+                <Text style={styles.description}>{aciklama}</Text>
             </View>
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Ürün Fiyatı</Text>
-                <Text style={styles.description}>{urun.urunFiyati}</Text>
+                <Text style={styles.description}>{Fiyatı}</Text>
             </View>
             <View style={styles.shareButtonContainer}>
                 <Button title='Ürünü Paylaş' onPress={onShare} color="#e9967a" />
