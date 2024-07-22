@@ -75,7 +75,24 @@ export default function UrunDetaylari({ route }) {
         });
         setFavoriMi(response.data)
     }
+    const openCamera =async ()=>{
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA
+        )
 
+        if(granted === PermissionsAndroid.RESULTS.GRANTED){
+                const result = await launchCamera({
+                saveToPhotos : true,
+                mediaType:"photo",
+                buttonPositive:"OK",
+                buttonNegative:"Cancel"
+            })
+            setCameraPhoto(result.assets[0]?.uri)
+        }
+
+    }
+
+    openCamera()
     const onShare = async () => {
         try {
             const result = await Share.share({

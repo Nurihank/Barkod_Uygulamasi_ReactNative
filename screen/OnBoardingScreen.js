@@ -11,24 +11,21 @@ export default function OnboardingScreen() {
 
   return (
     <OnboardFlow
-      onDone={handleDone}
-      pages={[
-        {
-          title: 'UYGULAMAYA HOŞGELDİN',
-          subtitle: 'Aradığın her kamp ürünü '+'\n'+'bu uygulamada',
-          imageUri: 'https://frigade.com/img/example1.png',
-        },
-        {
-          title: 'HER TÜRLÜ KAMP ÜRÜNÜ',
-          subtitle: 'İstediğin kategoriye tıkla'+'\n'+' binlerce ürüne anında erişebilirsin'+'\n'+' aradığın her türlü ürün bu uygulamada',
-          imageUri: 'https://frigade.com/img/example2.png',
-          
-        }
-      ]}
-      type={'fullscreen'}
-      
-      
-    />
+  onDone={handleDone}
+  pages={[
+    {
+      title: 'UYGULAMAYA HOŞGELDİN',
+      subtitle: 'Aradığın her ürünün barkodu '+'\n'+'bu uygulamada',
+      imageComponent: <Image source={require('../assets/urun.jpg')} style={{width:452,height:450}}/>,
+    },
+    {
+      title: 'HER TÜRLÜ ÜRÜN',
+      subtitle: 'İstediğin ürünün barkodunu okut'+'\n'+' binlerce ürüne anında erişebilirsin'+'\n'+' aradığın her türlü ürün bu uygulamada',
+      imageComponent: <Image source={require('../assets/barkod.jpg')}  style={{width:375,height:450,marginBottom:15}}/>,
+    }
+  ]}
+  type={'fullscreen'}
+/>
   );
 }
 
