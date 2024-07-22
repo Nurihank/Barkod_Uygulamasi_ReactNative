@@ -143,7 +143,7 @@ export default function App() {
                 <TouchableOpacity style={{ marginHorizontal: 20 }} onPress={() => navigation.navigate("Profil")}>
                     <MaterialCommunityIcons name="face-man-profile" size={47} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ marginHorizontal: 20 }}>
+                <TouchableOpacity style={{ marginHorizontal: 20 }} onPress={() => navigation.navigate("Ayarlar")}>
                     <Ionicons name="settings" size={40} color="black" />
                 </TouchableOpacity>
             </View>

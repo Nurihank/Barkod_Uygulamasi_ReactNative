@@ -12,6 +12,7 @@ import FavoriScreen from './screen/FavoriEkrani.js';
 import ProfileScreen from './screen/ProfileScreen.js';
 import GirisEkrani from './screen/GirisEkrani.js';
 import KayitEkrani from './screen/KayitEkrani.js';
+import Ayarlar from './screen/Ayarlar.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,8 @@ export default function App() {
         <Stack.Screen name="Favori" component={FavoriScreen} options={{headerBackVisible:false,title: 'Favori Sayfası'}}/>
         <Stack.Screen name="Profil" component={ProfileScreen} />
         <Stack.Screen name="Kayıt Ekranı" component={KayitEkrani} />
+        <Stack.Screen name="Ayarlar" component={Ayarlar} options={{headerBackVisible:false,title: 'Favori Sayfası'}}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
