@@ -22,6 +22,8 @@
     "expo-image-picker": "~15.0.7",
     "expo-status-bar": "~1.12.1",
     "init": "^0.1.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "lottie-react-native": "^5.0.1",
     "react": "18.2.0",
     "react-native": "^0.74.2",
@@ -36,7 +38,8 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "^15.3.0",
     "react-native-swipeable": "^0.6.0",
-    "react-native-vision-camera": "^2.16.1"
+    "react-native-vision-camera": "^2.16.1",
+    "expo-crypto": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

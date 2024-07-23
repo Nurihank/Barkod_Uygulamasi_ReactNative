@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import api from "../api/api";
@@ -9,6 +9,8 @@ import Kullanici from '../Models/UserModel';
 import SifreYenileModal from '../components/SifreYenileModal';
 import SifreDegistirmeModal from '../components/SifreDegistirmeModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function ProfileScreen() {
   const [kullaniciAdi, setKullaniciAdi] = useState('');
@@ -20,6 +22,8 @@ export default function ProfileScreen() {
   const [image, setImage] = useState(Kullanici.image);
   const [GuncelleVisible,setGuncelleVisible] = useState(false)
   const[SifreDegistirmeModalVisible,setSifreDegistirmeModalVisible] = useState(false)
+
+  const navigation = useNavigation()
 
   useEffect(() => {
     (async () => {
@@ -79,28 +83,37 @@ export default function ProfileScreen() {
     } 
   };
  
-  const getToken = async () => {
+  const getAccesToken = async () => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      console.log("token = ", token);
       return token;
     } catch (error) {
       console.error('Access token retrieval error:', error);
       return null;
     }
   };
- 
+  const getRefreshToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem('refreshToken');
+      return token;
+    } catch (error) {
+      console.error('Refresh token retrieval error:', error);
+      return null;
+    }
+  };
+
+
+  //en son c#dan refresh token ile yeni token getirme endpointi yazcaz
   const KullaniciBilgileri = async () => {
     
 
-    const token = await getToken();
-    console.log(" token = "+token)
-    if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const accessToken = await getAccesToken();
+    if (accessToken) {
+
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`; //access token kontrolü yapıyor
       try {
         const response = await api.get("/KullaniciControllers/KullaniciBilgileri/" +Kullanici.id);
         setKullaniciBilgisi(response.data)
-        console.log('Data:', response.data);
 
         if (response.data.cinsiyet) { 
           setCinsiyet("erkek");
@@ -114,7 +127,22 @@ export default function ProfileScreen() {
         setYas(response.data.yas);
 
       } catch (error) {
-        console.error('API error:', error);
+        console.log('Süresi bitti ya da access token gelmedi:', error);
+        const refreshToken = await getRefreshToken()
+
+        api.defaults.headers.common['Authorization'] = `Bearer ${refreshToken}`; //refresh token kontrolü yapıyor
+        try {
+
+            const response =  await api.post("/KullaniciControllers/Token")
+            await AsyncStorage.setItem('accessToken', response.data);
+            KullaniciBilgileri()
+          //içine refresk tokenle yeni token getirme yapacaz
+        } catch (error) {
+          Alert.alert("Tekrar giriş yapmak zorundasin")
+          await AsyncStorage.setItem('accessToken', "null");
+          await AsyncStorage.setItem('refreshToken', "null");
+          navigation.navigate("Giriş Ekranı")
+        }
         
       }
     } else {

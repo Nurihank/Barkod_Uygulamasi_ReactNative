@@ -16,6 +16,7 @@ import CameraModal from '../components/CameraModal.js';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import FavoriModal from './FavoriEkrani.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
     const navigation = useNavigation();
@@ -30,9 +31,11 @@ export default function App() {
 
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term);
+        const id = await AsyncStorage.getItem("id")
+        console.log(id)
         setGelenUrun(urunResult);
     };
-
+    
     const FiyatAraliginaGoreArama = async (enDüşük, enYüksek) => {
         const response = await api.get("/FiltreControllers/FiyatAraligi/" + enDüşük + "/" + enYüksek);
         setGelenUrun(response.data);

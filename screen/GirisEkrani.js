@@ -20,9 +20,12 @@ export default function GirisEkrani() {
             KullaniciAdi:kullaniciAdi,
             Sifre:sifre
         })
-        //console.log(response.data)
-        await AsyncStorage.setItem('accessToken', response.data.tokenValue);
+
         if("Başarıyla Giriş Yaptın" == response.data.message){
+            await AsyncStorage.setItem('accessToken', response.data.accesTokenValue);
+            await AsyncStorage.setItem('refreshToken', response.data.refreshTokenValue);
+            await AsyncStorage.setItem('id', response.data.userId);
+
             Kullanici.image = response.data.image;
             Kullanici.id = response.data.userId;
             navigation.navigate("Ana Sayfa")
