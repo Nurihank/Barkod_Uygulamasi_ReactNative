@@ -5,6 +5,9 @@ import api from '../api/api'
 import { useNavigation } from '@react-navigation/native'
 import Kullanici from '../Models/UserModel'
 import SifremiUnuttumModal from '../components/SifremiUnuttumModal'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 export default function GirisEkrani() {
 
     const [kullaniciAdi, setKullaniciAdi] = useState("")
@@ -17,6 +20,8 @@ export default function GirisEkrani() {
             KullaniciAdi:kullaniciAdi,
             Sifre:sifre
         })
+        //console.log(response.data)
+        await AsyncStorage.setItem('accessToken', response.data.tokenValue);
         if("Başarıyla Giriş Yaptın" == response.data.message){
             Kullanici.image = response.data.image;
             Kullanici.id = response.data.userId;

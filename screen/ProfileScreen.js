@@ -8,6 +8,7 @@ import KullaniciBilgileriGuncelleModal from '../components/KullaniciBilgileriGun
 import Kullanici from '../Models/UserModel';
 import SifreYenileModal from '../components/SifreYenileModal';
 import SifreDegistirmeModal from '../components/SifreDegistirmeModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileScreen() {
   const [kullaniciAdi, setKullaniciAdi] = useState('');
@@ -75,23 +76,52 @@ export default function ProfileScreen() {
     
     if (!result.canceled) {
       setImage(Kullanici.image);
+    } 
+  };
+ 
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem('accessToken');
+      console.log("token = ", token);
+      return token;
+    } catch (error) {
+      console.error('Access token retrieval error:', error);
+      return null;
     }
   };
-
+ 
   const KullaniciBilgileri = async () => {
-    const response = await api.get("/KullaniciControllers/KullaniciBilgileri/" +Kullanici.id);
-    setKullaniciBilgisi(response.data)
+    
 
-    if (response.data.cinsiyet) { 
-      setCinsiyet("erkek");
-    }else{
-      setCinsiyet("Kadın")
+    const token = await getToken();
+    console.log(" token = "+token)
+    if (token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      try {
+        const response = await api.get("/KullaniciControllers/KullaniciBilgileri/" +Kullanici.id);
+        setKullaniciBilgisi(response.data)
+        console.log('Data:', response.data);
+
+        if (response.data.cinsiyet) { 
+          setCinsiyet("erkek");
+        }else{
+          setCinsiyet("Kadın")
+        }
+    
+        setEposta(response.data.eposta);
+        setTelefonNo(response.data.telefonNo);
+        setKullaniciAdi(response.data.kullaniciAdi);
+        setYas(response.data.yas);
+
+      } catch (error) {
+        console.error('API error:', error);
+        
+      }
+    } else {
+      console.error('Access token not available.');
     }
 
-    setEposta(response.data.eposta);
-    setTelefonNo(response.data.telefonNo);
-    setKullaniciAdi(response.data.kullaniciAdi);
-    setYas(response.data.yas);
+    
   };
 
   useEffect(() => {
