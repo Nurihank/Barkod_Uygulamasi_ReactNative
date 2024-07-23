@@ -40,9 +40,9 @@ export default function KayitEkrani() {
         Kullanici.id = response.data.userId;
         const idString = JSON.stringify(response.data.userId)
         await AsyncStorage.setItem('id',idString );
-        await AsyncStorage.setItem('accessToken', response.data.accessToken.value);
-        await AsyncStorage.setItem('refreshToken', response.data.refreshToken.value);
-        
+        await AsyncStorage.setItem('accessToken', response.data.accesTokenValue);
+        await AsyncStorage.setItem('refreshToken', response.data.refreshTokenValue);
+
         alert("Kayıt başarılı!");
         navigation.navigate("Ana Sayfa")
         
