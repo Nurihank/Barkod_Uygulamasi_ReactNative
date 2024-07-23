@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import api from '../api/api';
 import Kullanici from '../Models/UserModel.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function KullaniciBilgileriGuncelleModal({ visible, Cikis, kullaniciBilgisi }) {
     const [yas, setYas] = useState("");
@@ -14,9 +15,11 @@ export default function KullaniciBilgileriGuncelleModal({ visible, Cikis, kullan
         setYas(kullaniciBilgisi.yas)
     }, [kullaniciBilgisi]);
     const handleUpdate = async () => {
+        const id = await AsyncStorage.getItem("id")
+    console.log(id)
         try {
             const response = await api.put("/KullaniciControllers/KullaniciGuncelle", {
-                KullaniciID:Kullanici.id,
+                KullaniciID:id,
                 TelefonNo: telefonNo,
                 Cinsiyet: cinsiyet,
                 Yas: yas

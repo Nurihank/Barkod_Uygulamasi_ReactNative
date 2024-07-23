@@ -52,10 +52,11 @@ export default function ProfileScreen() {
       aspect: [4, 3],
       quality: 1,
     });
-    
+    const id = await AsyncStorage.getItem("id")
+    console.log(id)
     Kullanici.image = result.assets[0].uri
     const response = await api.put("/KullaniciControllers/ProfilResmiKaydet",{
-      id:Kullanici.id,
+      id: id,
       imagePath:result.assets[0].uri
     })
     response();
@@ -66,6 +67,8 @@ export default function ProfileScreen() {
   };
 
   const takePhoto = async () => {
+    const id = await AsyncStorage.getItem("id")
+    console.log(id)
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 1,
@@ -74,7 +77,7 @@ export default function ProfileScreen() {
     console.log(result.assets[0].uri)
     setImage(null)
     const response = await api.put("/KullaniciControllers/ProfilResmiKaydet",{
-      id:Kullanici.id,
+      id:id,
       imagePath:result.assets[0].uri
     })
     
@@ -106,13 +109,14 @@ export default function ProfileScreen() {
   //en son c#dan refresh token ile yeni token getirme endpointi yazcaz
   const KullaniciBilgileri = async () => {
     
-
+    const id = await AsyncStorage.getItem("id")
+    console.log(id)
     const accessToken = await getAccesToken();
     if (accessToken) {
 
     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`; //access token kontrolü yapıyor
       try {
-        const response = await api.get("/KullaniciControllers/KullaniciBilgileri/" +Kullanici.id);
+        const response = await api.get("/KullaniciControllers/KullaniciBilgileri/" +id);
         setKullaniciBilgisi(response.data)
 
         if (response.data.cinsiyet) { 
@@ -139,14 +143,14 @@ export default function ProfileScreen() {
           //içine refresk tokenle yeni token getirme yapacaz
         } catch (error) {
           Alert.alert("Tekrar giriş yapmak zorundasin")
-          await AsyncStorage.setItem('accessToken', "null");
-          await AsyncStorage.setItem('refreshToken', "null");
+          await AsyncStorage.clear();
           navigation.navigate("Giriş Ekranı")
         }
         
       }
     } else {
       console.error('Access token not available.');
+      navigation.navigate("Giriş Ekranı")
     }
 
     

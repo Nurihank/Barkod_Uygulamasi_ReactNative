@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import api from '../api/api';
 import Kullanici from '../Models/UserModel';
 import UrunDuzenlemeModal from '../components/UrunDuzenlemeModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function UrunDetaylari({ route }) {
 
@@ -26,9 +27,11 @@ export default function UrunDetaylari({ route }) {
 
  
     const FavorilereEkle = async()=>{
+        const id = await AsyncStorage.getItem("id")
+    console.log(id)
         const response = await api.put("/FavoriteControllers/FavoriEkle",{
             UrunID: route.params.data.urunID,
-            KullaniciID: Kullanici.id,
+            KullaniciID: id,
         })
         if("Favoriye Eklendi" == response.data){
             FavoriMiKontrol()
@@ -52,13 +55,15 @@ export default function UrunDetaylari({ route }) {
     }
 
     const FavorilerdenCikar = async()=>{
+        const id = await AsyncStorage.getItem("id")
+    console.log(id)
         const response = await api.delete("/FavoriteControllers/FavoriSil", {
             headers: {
                 'Content-Type': 'application/json'
             },
             data: {
                 UrunID: route.params.data.urunID,
-                KullaniciID: Kullanici.id,
+                KullaniciID: id,
             }
         });       
         if(response.data){
@@ -67,32 +72,17 @@ export default function UrunDetaylari({ route }) {
     }
 
     const FavoriMiKontrol = async ()=>{
+        const id = await AsyncStorage.getItem("id")
+    console.log(id)
         const response = await api.get("/FavoriteControllers/FavoriMi", {
             params: {
                 UrunID: route.params.data.urunID,
-                KullaniciID: Kullanici.id,
+                KullaniciID: id,
             }
         });
         setFavoriMi(response.data)
     }
-    const openCamera =async ()=>{
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA
-        )
 
-        if(granted === PermissionsAndroid.RESULTS.GRANTED){
-                const result = await launchCamera({
-                saveToPhotos : true,
-                mediaType:"photo",
-                buttonPositive:"OK",
-                buttonNegative:"Cancel"
-            })
-            setCameraPhoto(result.assets[0]?.uri)
-        }
-
-    }
-
-    openCamera()
     const onShare = async () => {
         try {
             const result = await Share.share({

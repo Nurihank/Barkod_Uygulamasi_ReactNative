@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, Alert, TouchableOpacity } fr
 import api from "../api/api"
 import Kullanici from '../Models/UserModel';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -27,7 +28,7 @@ export default function KayitEkrani() {
       KullaniciAdi: kullaniciAdi,
       Eposta: eposta,
       Sifre: sifre,
-      TelNo: telefonNo,
+      TelefonNo: telefonNo,
       Cinsiyet: cinsiyet,
       Yas: yas,
     };
@@ -37,6 +38,11 @@ export default function KayitEkrani() {
 
       if (response.data.message === "okey") {
         Kullanici.id = response.data.userId;
+        const idString = JSON.stringify(response.data.userId)
+        await AsyncStorage.setItem('id',idString );
+        await AsyncStorage.setItem('accessToken', response.data.accessToken.value);
+        await AsyncStorage.setItem('refreshToken', response.data.refreshToken.value);
+        
         alert("Kayıt başarılı!");
         navigation.navigate("Ana Sayfa")
         

@@ -27,11 +27,10 @@ export default function App() {
     const [urunSilVisible, setUrunSilVisible] = useState(false);
     const [urunFiltrele, setUrunFiltrele] = useState(false);
     const [cameraModal, setCameraModal] = useState(false);
-    const [favoriModalVisible, setFavoriModalVisible] = useState(false);
-
+    const[FavoriModalVisible,setFavoriModalVisible] = useState()
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term);
-        const id = await AsyncStorage.getItem("id")
+       const id = await AsyncStorage.getItem("id")
         console.log(id)
         setGelenUrun(urunResult);
     };

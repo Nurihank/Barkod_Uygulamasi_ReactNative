@@ -4,14 +4,18 @@ import { FontAwesome } from '@expo/vector-icons';
 import api from '../api/api';
 import { useNavigation } from '@react-navigation/native';
 import Kullanici from "../Models/UserModel"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function FavoriScreen() {
     const [favoriUrunler, setFavoriUrunler] = useState([]);
     const navigation = useNavigation();
 
     const FavoriUrunleriGetir = async () => {
+        const id = await AsyncStorage.getItem("id")
+        console.log(id)
         const response = await api.get("/FavoriteControllers/FavoriUrunler",{
             params:{
-                KullaniciID:Kullanici.id
+                KullaniciID:id
             }
         }
         )

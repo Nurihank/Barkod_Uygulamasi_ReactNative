@@ -1,7 +1,17 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Ayarlar() {
+  const navigation = useNavigation()
+
+  const Kapat = async()=>{
+    await AsyncStorage.clear();
+    navigation.navigate("Giriş Ekranı")
+
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -20,8 +30,8 @@ export default function Ayarlar() {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity>
-            <Text style={styles.label}>Hesabı Sil</Text>
+        <TouchableOpacity onPress={Kapat}>
+            <Text style={styles.label}>Hesabı Kapat</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
