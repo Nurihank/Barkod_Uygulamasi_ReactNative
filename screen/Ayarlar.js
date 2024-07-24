@@ -1,12 +1,16 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import api from "../api/api";
 import { AntDesign } from '@expo/vector-icons';
+import MailModal from './MailModal';
 
 export default function Ayarlar() {
+
   const navigation = useNavigation();
+  const [MailModalVisible,setMailModalVisible] = useState(false)
+  const [type,setType] = useState("")
 
   const CikisYap = () => {
     const showAlert = () => {
@@ -38,6 +42,15 @@ export default function Ayarlar() {
   const AnaEkranGeriDon = async () => {
     navigation.navigate("Ana Sayfa");
   };
+
+ const closeModal = ()=>{
+  setMailModalVisible(false)
+ }
+
+ const SendMailModal = (type)=>{
+  setType(type)
+  setMailModalVisible(true)
+ }
 
   const FavorileriSifirla = async () => {
     const id = await AsyncStorage.getItem("id");
@@ -102,13 +115,18 @@ export default function Ayarlar() {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <AntDesign name="bulb1" size={24} color="black" style={styles.icon} />
+        <TouchableOpacity style={styles.button} onPress={()=>SendMailModal("Önerileriniz ve Tavsiyeleriniz için")}>
+          <AntDesign name="bulb1" size={24} color="black" style={styles.icon}  />
           <Text style={styles.label}>Önerileriniz ve Tavsiyeleriniz</Text>
         </TouchableOpacity>
       </View>
+      <MailModal
+        visible={MailModalVisible}
+        closeModal={closeModal}
+        type={type}
+      />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={()=>SendMailModal("Şikayetinizi")}>
           <AntDesign name="exclamationcircle" size={24} color="black" style={styles.icon} />
           <Text style={styles.label}>Şikayet</Text>
         </TouchableOpacity>
