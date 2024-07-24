@@ -12,7 +12,6 @@ export default function FavoriScreen() {
 
     const FavoriUrunleriGetir = async () => {
         const id = await AsyncStorage.getItem("id")
-        console.log(id)
         const response = await api.get("/FavoriteControllers/FavoriUrunler",{
             params:{
                 KullaniciID:id

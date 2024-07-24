@@ -12,12 +12,16 @@ export default function CameraModal({ visible, Cikis, CameraModalCikis }) {
   const [flash, setFlash] = useState('off');  // Flash state is 'off' by default
 
   useEffect(() => {
+    
+  }, []);
+
+  if(visible){
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
-  }, []);
-
+  }
+  
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setScannedData({ type, data });

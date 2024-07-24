@@ -53,7 +53,6 @@ export default function ProfileScreen() {
       quality: 1,
     });
     const id = await AsyncStorage.getItem("id")
-    console.log(id)
     Kullanici.image = result.assets[0].uri
     const response = await api.put("/KullaniciControllers/ProfilResmiKaydet",{
       id: id,
@@ -68,13 +67,11 @@ export default function ProfileScreen() {
 
   const takePhoto = async () => {
     const id = await AsyncStorage.getItem("id")
-    console.log(id)
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 1,
     });
     Kullanici.image = result.assets[0].uri
-    console.log(result.assets[0].uri)
     setImage(null)
     const response = await api.put("/KullaniciControllers/ProfilResmiKaydet",{
       id:id,
@@ -110,7 +107,6 @@ export default function ProfileScreen() {
   const KullaniciBilgileri = async () => {
     
     const id = await AsyncStorage.getItem("id")
-    console.log(id)
     const accessToken = await getAccesToken();
     if (accessToken) {
 

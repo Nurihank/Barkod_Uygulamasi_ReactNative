@@ -27,7 +27,6 @@ export default function SifremiUnuttumModal({ visible, Cikis }) {
 
     const KodDogrula = () => {
         if (gelenCode == girilenCode) {
-            console.log("Doğru kod");
             setSifreYenileModalVisible(true);
         } else {
             Alert.alert("Kod yanlış, lütfen tekrar deneyin.");

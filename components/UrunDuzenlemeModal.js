@@ -31,7 +31,6 @@ export default function UrunDuzenlemeModal({ visible, Cikis ,Urun,UrunID}) {
                 UrunFiyati: urunFiyati,
                 UrunBarcode: urunBarkodu
             });
-            console.log(response.data);
             Cikis()
             // Burada response ile ne yapmak istediğinizi belirleyin
         } catch (error) {

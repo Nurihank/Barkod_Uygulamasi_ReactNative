@@ -28,7 +28,6 @@ export default function UrunDetaylari({ route }) {
  
     const FavorilereEkle = async()=>{
         const id = await AsyncStorage.getItem("id")
-    console.log(id)
         const response = await api.put("/FavoriteControllers/FavoriEkle",{
             UrunID: route.params.data.urunID,
             KullaniciID: id,
@@ -56,7 +55,6 @@ export default function UrunDetaylari({ route }) {
 
     const FavorilerdenCikar = async()=>{
         const id = await AsyncStorage.getItem("id")
-    console.log(id)
         const response = await api.delete("/FavoriteControllers/FavoriSil", {
             headers: {
                 'Content-Type': 'application/json'
@@ -73,7 +71,6 @@ export default function UrunDetaylari({ route }) {
 
     const FavoriMiKontrol = async ()=>{
         const id = await AsyncStorage.getItem("id")
-    console.log(id)
         const response = await api.get("/FavoriteControllers/FavoriMi", {
             params: {
                 UrunID: route.params.data.urunID,

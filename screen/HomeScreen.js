@@ -30,8 +30,6 @@ export default function App() {
     const[FavoriModalVisible,setFavoriModalVisible] = useState()
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term);
-       const id = await AsyncStorage.getItem("id")
-        console.log(id)
         setGelenUrun(urunResult);
     };
     

@@ -22,7 +22,6 @@ export default function GirisEkrani() {
         })
    
         if("Başarıyla Giriş Yaptın" == response.data.message){
-          console.log(response.data)
 
           await AsyncStorage.setItem('accessToken', response.data.accesTokenValue);
           await AsyncStorage.setItem('refreshToken', response.data.refreshTokenValue);

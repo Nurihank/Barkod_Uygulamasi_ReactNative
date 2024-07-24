@@ -16,7 +16,6 @@ export default function KullaniciBilgileriGuncelleModal({ visible, Cikis, kullan
     }, [kullaniciBilgisi]);
     const handleUpdate = async () => {
         const id = await AsyncStorage.getItem("id")
-    console.log(id)
         try {
             const response = await api.put("/KullaniciControllers/KullaniciGuncelle", {
                 KullaniciID:id,
