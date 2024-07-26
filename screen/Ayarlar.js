@@ -54,7 +54,6 @@ export default function Ayarlar() {
 
   const FavorileriSifirla = async () => {
     const id = await AsyncStorage.getItem("id");
-    console.log(id);
     const showAlert = () => {
       Alert.alert(
         "Favorileri Sıfırlamak İstediğine Emin Misin?",
@@ -83,7 +82,6 @@ export default function Ayarlar() {
               KullaniciID: id
           }
         });
-        console.log(response.data);
         // Favoriler sıfırlandıktan sonra ek işlemler yapılabilir, örneğin kullanıcı bilgilendirilebilir.
       } catch (error) {
         console.error("Favorileri sıfırlama sırasında bir hata oluştu:", error);
@@ -109,12 +107,6 @@ export default function Ayarlar() {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <AntDesign name="lock" size={24} color="black" style={styles.icon} />
-          <Text style={styles.label}>İzin Yönetimi</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={()=>SendMailModal("Önerileriniz ve Tavsiyeleriniz için")}>
           <AntDesign name="bulb1" size={24} color="black" style={styles.icon}  />
           <Text style={styles.label}>Önerileriniz ve Tavsiyeleriniz</Text>
@@ -135,12 +127,6 @@ export default function Ayarlar() {
         <TouchableOpacity onPress={CikisYap} style={styles.button}>
           <AntDesign name="logout" size={24} color="black" style={styles.icon} />
           <Text style={styles.label}>Çıkış Yap</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <AntDesign name="deleteuser" size={24} color="black" style={styles.icon} />
-          <Text style={styles.label}>Hesabı Sil</Text>
         </TouchableOpacity>
       </View>
     </View>

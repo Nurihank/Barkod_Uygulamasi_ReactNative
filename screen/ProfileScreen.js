@@ -24,7 +24,6 @@ export default function ProfileScreen() {
   const[SifreDegistirmeModalVisible,setSifreDegistirmeModalVisible] = useState(false)
 
   const navigation = useNavigation()
-
   useEffect(() => {
     (async () => {
       const libraryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -134,10 +133,12 @@ export default function ProfileScreen() {
         try {
 
             const response =  await api.post("/KullaniciControllers/Token")
+            
             await AsyncStorage.setItem('accessToken', response.data);
             KullaniciBilgileri()
           //içine refresk tokenle yeni token getirme yapacaz
         } catch (error) {
+          console.log('Süresi bitti ya da refresh token gelmedi:'); 
           Alert.alert("Tekrar giriş yapmak zorundasin")
           await AsyncStorage.clear();
           navigation.navigate("Giriş Ekranı")

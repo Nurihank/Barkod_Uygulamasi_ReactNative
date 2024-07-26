@@ -9,7 +9,6 @@ export default function MailModal({ visible, type, closeModal }) {
     const SendMail = ()=>{
 
     }
-    console.log(visible)
   return (
     <Modal 
         visible={visible}

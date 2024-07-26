@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import FiyatAraligiModal from "./FiyatAraligiModal";
 
-const Filtre = ({ visible, Cikis, Siralama ,FiyatAraliginaGoreArama}) => {
+const Filtre = ({ visible, Cikis, Siralama, FiyatAraliginaGoreArama }) => {
     const [siralamaSecme, setSiralamaSecme] = useState("");
-    const [fiyatAraligiModalVisible, setFiyatAraligiModalVisible] = useState(false)
+    const [fiyatAraligiModalVisible, setFiyatAraligiModalVisible] = useState(false);
 
-    const FiyatAraligiFiltrele = ()=>{
-        setFiyatAraligiModalVisible(true)
-    }
-    const FiyatAraligiModalKapatma = ()=>{
-        setFiyatAraligiModalVisible(false)
-    }
+    const FiyatAraligiFiltrele = () => {
+        setFiyatAraligiModalVisible(true);
+    };
+
+    const FiyatAraligiModalKapatma = () => {
+        setFiyatAraligiModalVisible(false);
+    };
+
     return (
         <Modal
             visible={visible}
             animationType="slide"
             transparent={true} // Modal arkaplanının şeffaf olmasını sağlar
-           
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
@@ -34,8 +35,8 @@ const Filtre = ({ visible, Cikis, Siralama ,FiyatAraliginaGoreArama}) => {
                     <TouchableOpacity style={styles.optionButton} onPress={FiyatAraligiFiltrele}>
                         <Text style={styles.optionText}>Fiyat Aralığı</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.closeButton} onPress={()=>Siralama(siralamaSecme)}>
-                        <Text style={styles.closeButtonText}>Filtrele</Text>
+                    <TouchableOpacity style={styles.filterButton} onPress={() => Siralama(siralamaSecme)}>
+                        <Text style={styles.filterButtonText}>Filtrele</Text>
                     </TouchableOpacity>
                     <FiyatAraligiModal
                         visible={fiyatAraligiModalVisible}
@@ -46,7 +47,7 @@ const Filtre = ({ visible, Cikis, Siralama ,FiyatAraliginaGoreArama}) => {
                         <Text style={styles.closeButtonText}>Çıkış</Text>
                     </TouchableOpacity>
                 </View>
-            </View> 
+            </View>
         </Modal>
     );
 };
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     modalContent: {
-        backgroundColor: "#fff", 
+        backgroundColor: "#fff",
         padding: 20,
         borderRadius: 10,
         width: "80%",
@@ -72,19 +73,32 @@ const styles = StyleSheet.create({
     },
     optionButton: {
         width: "100%",
-        paddingVertical: 10,
+        paddingVertical: 15,
         borderBottomWidth: 1,
         borderBottomColor: "#ccc",
     },
     optionText: {
         fontSize: 16,
+        textAlign: "center",
+    },
+    filterButton: {
+        marginTop: 15,
+        backgroundColor: "blue",
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+    },
+    filterButtonText: {
+        fontSize: 18,
+        color: "#fff",
+        textAlign: "center",
     },
     closeButton: {
         marginTop: 15,
     },
     closeButtonText: {
         fontSize: 18,
-        color: "blue", 
+        color: "blue",
     },
 });
 
