@@ -17,16 +17,14 @@ import Ayarlar from './screen/Ayarlar.js';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
-  //burda en başta onboarding ekranı olacak UNUTMA
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Giriş Ekranı" component={GirisEkrani} />
+
       <Stack.Screen name="Ana Sayfa" component={HomeScreen}
                       options={{ title: 'Ana Sayfa', headerBackVisible: false }}/>
       <Stack.Screen name="Onboarding" component={Onboarding} />
-      
-      <Stack.Screen name="Giriş Ekranı" component={GirisEkrani} />
-
         <Stack.Screen name="Ürün Sayfasi" component={UrunDetaylari} />
         <Stack.Screen name="Kategori Sayfasi" component={Kategori} />
         <Stack.Screen name="Kategori Detayı" component={KategoriDetaylari} />

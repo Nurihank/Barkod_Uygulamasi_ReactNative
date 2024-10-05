@@ -8,16 +8,15 @@ export default function UrunSilme({ visible, Cikis }) {
     const [term, setTerm] = useState("");
     const [UrunGetir] = SearchApi();
     const [gelenUrun, setGelenUrun] = useState([]);
-   // const [silinecekUrunID, setSilinecekUrunID] = useState(null); // Silinecek ürünün ID'sini saklar
 
     useEffect(() => {
-        UrunleriGetirme(); // İlk renderda ürünleri getir
+        UrunleriGetirme(); 
     }, []);
 
     const UrunleriGetirme = async () => {
         try {
-            const apiResult = await UrunGetir(term); // API çağrısından sonucu aldık
-            setGelenUrun(apiResult); // Gelen sonucu set ettik
+            const apiResult = await UrunGetir(term); 
+            setGelenUrun(apiResult); 
         } catch (error) {
             console.error("Ürünleri getirirken hata oluştu:", error);
             Alert.alert("Ürünleri getirirken bir hata oluştu.");
@@ -28,7 +27,7 @@ export default function UrunSilme({ visible, Cikis }) {
         try {
             const response = await api.delete("/UrunControllers", {
                 headers: {
-                    'Content-Type': 'application/json' // Sunucunun beklediği içerik türü
+                    'Content-Type': 'application/json' 
                 },
                 data: {
                     Id: id
@@ -36,8 +35,8 @@ export default function UrunSilme({ visible, Cikis }) {
             });
             if (response.data === "Ürün başarıyla silindi") {
                 Alert.alert("Başarıyla silindi");
-                UrunleriGetirme(); // Ürünleri tekrar getir
-                Cikis(); // Çıkış fonksiyonu çalışır
+                UrunleriGetirme(); 
+                Cikis(); 
             } else {
                 Alert.alert("Ürün silinirken bir hata oluştu.");
             }
@@ -82,7 +81,7 @@ export default function UrunSilme({ visible, Cikis }) {
                         renderItem={({ item }) => (
                             <TouchableOpacity
                                 style={styles.itemContainer}
-                                onPress={() => handleUrunSil(item.urunID)} // onPress event'i ile handleUrunSil fonksiyonunu çağır
+                                onPress={() => handleUrunSil(item.urunID)} 
                             >
                                 <Text style={styles.itemText}>{item.urunAdi}</Text>
                                 <Text style={styles.itemText}>{item.urunAciklamasi}</Text>
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         width: '90%',
-        maxHeight: '80%', // Modal içeriğinin ekran yüksekliğinin en fazla %80'sini kaplamasını sağlar
+        maxHeight: '80%', 
         alignSelf: 'center',
     },
     title: {

@@ -20,7 +20,9 @@ export default function OnboardingScreen() {
     },
     {
       title: 'HER TÜRLÜ ÜRÜN',
-      subtitle: 'İstediğin ürünün barkodunu okut'+'\n'+' binlerce ürüne anında erişebilirsin'+'\n'+' aradığın her türlü ürün bu uygulamada',
+      subtitle: 'İstediğin ürünün barkodunu okut'+'\n'+
+        ' binlerce ürüne anında erişebilirsin'+'\n'+
+        ' aradığın her türlü ürün bu uygulamada',
       imageComponent: <Image source={require('../assets/barkod.jpg')}  style={{width:375,height:450,marginBottom:15}}/>,
     }
   ]}

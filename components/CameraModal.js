@@ -54,7 +54,7 @@ export default function CameraModal({ visible, Cikis, CameraModalCikis }) {
             <CameraView 
               onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
               style={styles.scanner}
-              flash={flash}  // Pass flash state to CameraView
+              flash={flash} 
             />
             <View style={styles.flashContainer}>
               <TouchableOpacity onPress={toggleFlash}>

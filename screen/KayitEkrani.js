@@ -5,12 +5,8 @@ import Kullanici from '../Models/UserModel';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
 export default function KayitEkrani() {
-
   const navigation = useNavigation()
-
   const [kullaniciAdi, setKullaniciAdi] = useState('');
   const [eposta, setEposta] = useState('');
   const [sifre, setSifre] = useState('');
@@ -23,7 +19,7 @@ export default function KayitEkrani() {
       console.error("Tüm alanları doldurun!");
       return;
     }
-    
+    console.log("asd")
     const userData = {
       KullaniciAdi: kullaniciAdi,
       Eposta: eposta,
@@ -35,13 +31,14 @@ export default function KayitEkrani() {
   
     try {
       const response = await api.post("/KullaniciControllers/KullaniciKayit", userData);
-
+  
       if (response.data.message === "okey") {
         Kullanici.id = response.data.userId;
         const idString = JSON.stringify(response.data.userId)
         await AsyncStorage.setItem('id',idString );
         await AsyncStorage.setItem('accessToken', response.data.accesTokenValue);
         await AsyncStorage.setItem('refreshToken', response.data.refreshTokenValue);
+        console.log(response.data)
 
         alert("Kayıt başarılı!");
         navigation.navigate("Ana Sayfa")

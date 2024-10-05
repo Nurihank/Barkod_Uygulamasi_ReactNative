@@ -35,7 +35,6 @@ export default function Ayarlar() {
       await AsyncStorage.clear();
       navigation.navigate("Giriş Ekranı");
     };
-  
     showAlert();
   };
 

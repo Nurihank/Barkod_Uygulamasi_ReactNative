@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { Alert, FlatList, StyleSheet, TouchableOpacity, View, Text, Image, TouchableHighlight } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
@@ -14,9 +13,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import CameraModal from '../components/CameraModal.js';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
-import FavoriModal from './FavoriEkrani.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
     const navigation = useNavigation();
@@ -27,12 +23,12 @@ export default function App() {
     const [urunSilVisible, setUrunSilVisible] = useState(false);
     const [urunFiltrele, setUrunFiltrele] = useState(false);
     const [cameraModal, setCameraModal] = useState(false);
-    const[FavoriModalVisible,setFavoriModalVisible] = useState()
+    const [FavoriModalVisible, setFavoriModalVisible] = useState()
     const UrunleriGetirme = async () => {
         const urunResult = await UrunGetir(term);
         setGelenUrun(urunResult);
     };
-    
+
     const FiyatAraliginaGoreArama = async (enDüşük, enYüksek) => {
         const response = await api.get("/FiltreControllers/FiyatAraligi/" + enDüşük + "/" + enYüksek);
         setGelenUrun(response.data);
@@ -78,14 +74,14 @@ export default function App() {
                 <TouchableHighlight style={{ marginHorizontal: 10 }} onPress={() => setUrunEkleVisible(true)}>
                     <FontAwesome5 name="plus-circle" size={24} color="black" />
                 </TouchableHighlight>
-                <UrunEkleme 
+                <UrunEkleme
                     visible={urunEkleVisible}
                     Cikis={Cikis}
                 />
                 <TouchableHighlight style={{ marginRight: 15 }} onPress={() => setUrunSilVisible(true)}>
                     <FontAwesome5 name="trash" size={24} color="black" />
                 </TouchableHighlight>
-                <UrunSilme 
+                <UrunSilme
                     visible={urunSilVisible}
                     Cikis={Cikis}
                 />
@@ -116,7 +112,7 @@ export default function App() {
                     Cikis={Cikis}
                     CameraModalCikis={CameraModalCikis}
                 />
-                <Filtre 
+                <Filtre
                     visible={urunFiltrele}
                     Cikis={Cikis}
                     Siralama={Siralama}
@@ -189,7 +185,7 @@ const styles = StyleSheet.create({
         right: 17,
         bottom: 5,
         height: 65,
-        backgroundColor: '#a1c6ea', 
+        backgroundColor: '#a1c6ea',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: "row",
